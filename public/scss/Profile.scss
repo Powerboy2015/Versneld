@@ -75,26 +75,26 @@ aside {
 }
 
 // TODO use this for phone menu
-.phone-only {
-    display: none;
-    @media (max-width: $sz-Tablet) {
-        display: block;
-    }
-}
+// .phone-only {
+//     display: none;
+//     @media (max-width: $sz-Tablet) {
+//         display: block;
+//     }
+// }
 
-.pc-only {
-    display: block;
-    @media (max-width: $sz-Tablet) {
-        display: none;
-    }
-}
+// .pc-only {
+//     display: block;
+//     @media (max-width: $sz-Tablet) {
+//         display: none;
+//     }
+// }
 
-.phone-column {
-    flex-direction: row;
-    @media (max-width: $sz-Tablet) {
-        flex-direction: column;
-    }
-}
+// .phone-column {
+//     flex-direction: row;
+//     @media (max-width: $sz-Tablet) {
+//         flex-direction: column;
+//     }
+// }
 
 .page {
     width: 100%;
@@ -110,7 +110,7 @@ aside {
     }
 }
 
-#overview {
+#router {
     width: 100%;
     height: 100%;
     padding: 3rem;

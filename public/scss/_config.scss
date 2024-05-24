@@ -1,4 +1,8 @@
-$sz-Tablet: 768px;
+$sz-Tablet: 962px;
+
+$size-phone: 480px;
+$size-tablet: 768px;
+$size-desktop: 1440px;
 
 :root {
     /* all our variables we can use */
@@ -19,13 +23,8 @@ $sz-Tablet: 768px;
 }
 
 body {
-    font-size: 8px;
-
+    font-size: 14px;
     @media (min-width: 320px) {
-        font-size: 8px;
-    }
-
-    @media (min-width: 481px) {
         font-size: 14px;
     }
 

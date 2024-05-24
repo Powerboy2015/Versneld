@@ -1,3 +1,5 @@
+@use "utility";
+
 @import "config";
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
@@ -11,75 +13,113 @@ body {
     padding: 0;
 }
 
-// FIXME rebuild the nav using the usernav on the profile page
-header {
-    // font-size: 24px;
-    color: var(--bg-color-main);
-    position: relative;
-    font-family: "Roboto";
-}
-nav {
-    @media (max-width: 481px) {
-        font-size: 0.75rem;
-    }
-
-    width: 100%;
-    position: fixed;
-    top: 0;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 10;
-
-    padding: 1rem;
-
-    transition: all 0.2s ease-in-out;
-}
-
-nav .logo {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-nav .logo img {
-    aspect-ratio: 1/1;
-    height: 2rem;
-}
-
-nav ul {
-    display: flex;
-    flex-direction: row;
-    gap: var(--gap);
-    padding-left: 0.5rem;
-}
-
-nav ul li {
-    list-style-type: none;
-
-    a {
-        color: var(--bg-color-main);
-        text-decoration: none;
-        font-weight: 400;
-    }
-
-    p {
-        margin: 0;
-    }
-}
-
-#login {
-    background-color: var(--link-color);
-    color: var(--main-color);
-    border-radius: 5px;
-    padding: 0.25rem;
-}
-
 .scroll {
     background-color: var(--bg-color-main);
     * {
         color: var(--main-color) !important;
     }
+}
+
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    @media (max-width: $size-phone) {
+        align-items: start;
+    }
+    align-items: center;
+    position: fixed;
+    z-index: 10;
+
+    font-weight: 400;
+    font-family: "Roboto";
+    font-size: 1.2rem;
+
+    padding: 0 1rem;
+
+    .logo {
+        align-items: center;
+        display: flex;
+        img {
+            height: 2rem;
+            aspect-ratio: 1/1;
+        }
+    }
+
+    ul {
+        display: flex;
+        flex-direction: row;
+        gap: var(--gap);
+        list-style: none;
+        overflow: hidden;
+
+        padding: 0.5rem 0 0 0;
+        margin: 0;
+
+        @media (max-width: $size-phone) {
+            li:not(:first-child) {
+                display: none;
+            }
+
+            li#hamburger {
+                float: right;
+                display: block;
+            }
+
+            &.responsive {
+                position: relative;
+                flex-direction: column;
+
+                #hamburger {
+                    // position: absolute;
+                    right: 0;
+                    top: 0;
+                }
+
+                li {
+                    float: none;
+                    display: block;
+                    padding: 0.5rem;
+                }
+            }
+        }
+
+        li > a {
+            text-decoration: none;
+        }
+    }
+}
+
+#hamburger {
+    display: none;
+    cursor: pointer;
+    right: 0;
+    top: 0;
+    padding: 0 2rem;
+
+    .bar1,
+    .bar2,
+    .bar3 {
+        width: 35px;
+        height: 5px;
+        background-color: var(--main-color);
+        margin: 6px 0;
+        transition: 0.4s;
+    }
+}
+
+/* Rotate first bar */
+.change .bar1 {
+    transform: translate(0, 11px) rotate(-45deg);
+}
+
+/* Fade out the second bar */
+.change .bar2 {
+    opacity: 0;
+}
+
+/* Rotate last bar */
+.change .bar3 {
+    transform: translate(0, -11px) rotate(45deg);
 }

@@ -1,3 +1,5 @@
+@import "config";
+
 .ta-right {
     text-align: right;
 }
@@ -8,8 +10,4 @@
 
 .card.reverse {
     flex-direction: row-reverse;
-}
-
-.force-show {
-    display: block !important;
 }

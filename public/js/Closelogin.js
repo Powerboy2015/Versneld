@@ -22,10 +22,12 @@ closeBut.addEventListener("click", (e) => {
     loginContainer.classList.remove("appear");
 });
 
-loginBut.addEventListener("click", (e) => {
-    e.preventDefault;
-    loginContainer.classList.add("appear");
-});
+if(loginBut != undefined) {
+    loginBut.addEventListener("click", (e) => {
+        e.preventDefault;
+        loginContainer.classList.add("appear");
+    });
+}
 
 const form = document.querySelector("#loginForm");
 

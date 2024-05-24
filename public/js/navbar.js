@@ -12,3 +12,14 @@ function changeNav(height,nav) {
         nav.classList.remove('scroll');
     }
 }
+
+const menuBut = document.querySelector("#hamburger");
+const navi = document.querySelector('.navigation');
+
+
+menuBut.addEventListener('click',(e) =>{
+    e.preventDefault();
+
+    navi.classList.toggle('responsive');
+    menuBut.classList.toggle('change');
+})

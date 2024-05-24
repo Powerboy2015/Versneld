@@ -13,11 +13,28 @@
         <?php require_once APPROOT . '/views/components/header.php' ?>
     </header>
     <main>
+        <div class="aside-open"></div>
+        <aside>
+            <ul>
+                <li>Dashboard</li>
+                <li>Reservations</li>
+                <li>Payments</li>
+                <li>profile</li>
+            </ul>
+        </aside>
         <div class="container">
+            <section class="page profile">
+                <div class="inner">
+                    <article class="card" id="userInfo">
+                        <h3>Profile info</h3>
+                        <table>
+                            <?php echo $data['userTable'] ?>
+                        </table>
 
-
-            <!-- This is used for the "profile slides" to be added to and display. -->
-            <section id="router" class="slide"></section>
+                        <a href="/user/change">Change information</a>
+                    </article>
+                </div>
+            </section>
         </div>
     </main>
     <script src="/public/js/profileNav.js"></script>

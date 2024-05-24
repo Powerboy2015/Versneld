@@ -24,11 +24,12 @@ $size-desktop: 1440px;
 
 body {
     font-size: 14px;
-    @media (min-width: 320px) {
+
+    @media (min-width: 480px) {
         font-size: 14px;
     }
 
-    @media (min-width: 1441px) {
+    @media (min-width: 768px) {
         font-size: 24px;
     }
 }

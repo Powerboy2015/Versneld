@@ -16,6 +16,7 @@ CREATE TABLE Users(
     Tel varchar(32),
     Adres varchar(128) NOT NULL,
     isLoggedIn boolean NOT NULL,
+    userType int NOT NULL,
     PRIMARY KEY (UserId)
 );
 

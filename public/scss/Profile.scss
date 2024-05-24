@@ -1,12 +1,12 @@
 @use "nav";
 @use "utility";
-@use "overview";
+@use "profile-info";
 
 @import "config";
 html,
 body {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
     background-color: var(--bg-color-second);
@@ -29,23 +29,6 @@ header {
     }
 }
 
-main * {
-    margin: 0;
-}
-
-main.grid {
-    display: grid;
-    grid-template-columns: 10rem auto;
-}
-
-main > aside {
-    grid-column: 1;
-}
-
-main > article {
-    grid-column: 2;
-}
-
 .container {
     display: flex;
     flex-direction: row;
@@ -53,9 +36,23 @@ main > article {
     width: 100%;
 }
 
+@media (max-width: $size-phone) {
+    .aside-open {
+        position: absolute;
+        display: block;
+        width: 30px;
+        height: 15px;
+        background-color: rgba(black, 0.3);
+        backdrop-filter: blur(8px);
+        left: 0;
+        top: 50%;
+    }
+}
+
 aside {
-    @media (max-width: 768px) {
-        width: 100%;
+    height: 100%;
+    @media (max-width: $size-phone) {
+        display: none;
     }
 
     width: fit-content;
@@ -74,44 +71,66 @@ aside {
     }
 }
 
-// TODO use this for phone menu
-// .phone-only {
-//     display: none;
-//     @media (max-width: $sz-Tablet) {
-//         display: block;
-//     }
-// }
-
-// .pc-only {
-//     display: block;
-//     @media (max-width: $sz-Tablet) {
-//         display: none;
-//     }
-// }
-
-// .phone-column {
-//     flex-direction: row;
-//     @media (max-width: $sz-Tablet) {
-//         flex-direction: column;
-//     }
-// }
-
-.page {
-    width: 100%;
-    height: 100%;
-    .inner {
-        height: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: start;
-
-        gap: var(--gap);
-    }
-}
-
 #router {
     width: 100%;
     height: 100%;
-    padding: 3rem;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    height: 100%;
+    display: flex;
+    position: relative;
+}
+
+// main.grid {
+//     display: grid;
+//     grid-template-columns: 10rem auto;
+// }
+
+// main > aside {
+//     grid-column: 1;
+// }
+
+// main > article {
+//     grid-column: 2;
+// }
+
+#userInfo {
+    h3 {
+        text-align: center;
+    }
+}
+
+.userTable {
+    display: flex;
+    flex-direction: row;
+    gap: var(--gap);
+    justify-content: center;
+    padding: 1rem;
+
+    > * {
+        flex: 1;
+    }
+
+    thead > tr {
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+        height: 100%;
+    }
+
+    tbody > tr {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+    }
+}
+
+th {
+    text-align: right;
 }

@@ -25,7 +25,7 @@ nav {
     display: flex;
     justify-content: space-between;
 
-    @media (max-width: $size-phone) {
+    @media (max-width: $size-tablet) {
         align-items: start;
     }
     align-items: center;
@@ -35,7 +35,6 @@ nav {
     font-weight: 400;
     font-family: "Roboto";
     font-size: 1.2rem;
-
     padding: 0 1rem;
 
     .logo {
@@ -53,11 +52,26 @@ nav {
         gap: var(--gap);
         list-style: none;
         overflow: hidden;
+        width: 100%;
+        justify-content: flex-end;
+        align-items: center;
+
+        @media (max-width: $size-tablet) {
+            justify-content: space-between;
+        }
+
+        li:first-child {
+            margin-right: auto;
+        }
 
         padding: 0.5rem 0 0 0;
         margin: 0;
 
-        @media (max-width: $size-phone) {
+        * {
+            color: var(--bg-color-main);
+        }
+
+        @media (max-width: $size-tablet) {
             li:not(:first-child) {
                 display: none;
             }
@@ -72,15 +86,18 @@ nav {
                 flex-direction: column;
 
                 #hamburger {
-                    // position: absolute;
+                    position: absolute;
                     right: 0;
-                    top: 0;
+                    margin-top: 1rem;
                 }
 
                 li {
                     float: none;
                     display: block;
-                    padding: 0.5rem;
+
+                    &:not(:first-child) {
+                        padding: 0.5rem;
+                    }
                 }
             }
         }

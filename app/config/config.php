@@ -8,4 +8,4 @@ define('URLROOT', 'https://www.windkracht12.nl');
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME','NailStudio');
+define('DB_NAME','windSurf');

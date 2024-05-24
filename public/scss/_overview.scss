@@ -1,0 +1,14 @@
+@import "config";
+
+.overview .inner .card {
+    width: 25%;
+    background-color: grey;
+    border-radius: 8px;
+    border: 1px orange solid;
+
+    padding: 1rem;
+
+    @media (max-width: $sz-Tablet) {
+        width: 100%;
+    }
+}

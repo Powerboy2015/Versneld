@@ -4,31 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/index.css">
-    <title>Document</title>
+    <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
+    <title>Windkracht 12</title>
 </head>
     <body>
         <header>
-            <nav>
-                <div class="logo">
-                    <img src="img/logo.png" alt="" id="logo" />
-                    <p>Windkracht 12</p>
-                </div>
-                <ul>
-                    <li>Home</li>
-                    <li>Pakketten</li>
-                    <li>About</li>
-                    <li>lorem</li>
-                    <li><a id="login" href="">Log in</a></li>
-                </ul>
-            </nav>
-            <div id="banner">
-                <img src="img/banner.jpg" alt="" />
+           <?php require_once APPROOT . '/views/components/header.php' ?>
+           
+           <div id="banner">
+               <img src="/img/banner.jpg" alt="" />
             </div>
-
+            
             <div class="middle-box">
                 <h1>Kitesurfschool Windkracht 12</h1>
             </div>
         </header>
+        <?php require_once APPROOT . '/views/components/login.php' ?>
+        
         <main>
             <section id="lessen">
                 <h2>Surflessen pakketten</h2>
@@ -107,7 +99,7 @@
                             kitesurfles voordat je begint met kiten en wees op
                             de hoogte van de laatste weersvoorspellingen.
                         </p>
-                        <img src="img/kitesurf-equip.jpg" alt="" />
+                        <img src="/img/kitesurf-equip.jpg" alt="" />
                     </div>
                 </div>
             </section>
@@ -123,6 +115,4 @@
             </section>
         </main>
     </body>
-
-    <script src="/js/prototype.js"></script>
 </html>

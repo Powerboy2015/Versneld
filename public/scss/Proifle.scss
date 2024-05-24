@@ -1,0 +1,117 @@
+@use "nav";
+@use "utility";
+@use "overview";
+
+@import "config";
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color-second);
+}
+
+body * {
+    box-sizing: border-box;
+}
+
+header {
+    width: 100%;
+    height: fit-content;
+    background-color: var(--bg-color-main);
+    * {
+        color: var(--bg-color-second) !important;
+    }
+
+    nav {
+        position: relative;
+    }
+}
+
+main * {
+    margin: 0;
+}
+
+main.grid {
+    display: grid;
+    grid-template-columns: 10rem auto;
+}
+
+main > aside {
+    grid-column: 1;
+}
+
+main > article {
+    grid-column: 2;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    // height: 100vh;
+    width: 100%;
+}
+
+aside {
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+
+    width: fit-content;
+
+    background-color: lighten(#1f2526, 2.5);
+    color: var(--bg-color-second);
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        li {
+            font-size: 2rem;
+            padding: 1rem;
+            text-align: center;
+        }
+    }
+}
+
+// TODO use this for phone menu
+.phone-only {
+    display: none;
+    @media (max-width: $sz-Tablet) {
+        display: block;
+    }
+}
+
+.pc-only {
+    display: block;
+    @media (max-width: $sz-Tablet) {
+        display: none;
+    }
+}
+
+.phone-column {
+    flex-direction: row;
+    @media (max-width: $sz-Tablet) {
+        flex-direction: column;
+    }
+}
+
+.page {
+    width: 100%;
+    height: 100%;
+    .inner {
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: start;
+
+        gap: var(--gap);
+    }
+}
+
+#overview {
+    width: 100%;
+    height: 100%;
+    padding: 3rem;
+}

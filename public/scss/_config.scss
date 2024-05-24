@@ -1,0 +1,35 @@
+$sz-Tablet: 768px;
+
+:root {
+    /* all our variables we can use */
+
+    --main-color: #d9fff8;
+    --link-color: #001aff;
+    --bg-color-main: #1f2526;
+    --bg-color-second: #d9fff8;
+    --box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+    @media (min-width: 320px) {
+        --gap: 4px;
+    }
+
+    @media (min-width: 481px) {
+        --gap: 16px;
+    }
+}
+
+body {
+    font-size: 8px;
+
+    @media (min-width: 320px) {
+        font-size: 8px;
+    }
+
+    @media (min-width: 481px) {
+        font-size: 14px;
+    }
+
+    @media (min-width: 1441px) {
+        font-size: 24px;
+    }
+}

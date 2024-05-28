@@ -67,6 +67,10 @@ aside {
             font-size: 2rem;
             padding: 1rem;
             text-align: center;
+            > a {
+                color: var(--bg-color-second);
+                text-decoration: none;
+            }
         }
     }
 }
@@ -107,30 +111,22 @@ main {
 }
 
 .userTable {
-    display: flex;
-    flex-direction: row;
-    gap: var(--gap);
-    justify-content: center;
-    padding: 1rem;
-
-    > * {
-        flex: 1;
-    }
-
-    thead > tr {
-        display: flex;
-        flex-direction: column;
+    > tbody > tr > th {
         text-align: right;
-        height: 100%;
+        padding-right: 1rem;
     }
 
-    tbody > tr {
-        display: flex;
-        flex-direction: column;
-        text-align: left;
-    }
-}
+    @media (max-width: $size-tablet) {
+        margin: auto;
+        > tbody > tr {
+            display: flex;
+            flex-direction: column;
 
-th {
-    text-align: right;
+            > th,
+            td {
+                text-align: center;
+                text-wrap: wrap;
+            }
+        }
+    }
 }

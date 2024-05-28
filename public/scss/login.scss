@@ -19,7 +19,10 @@ $box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     background-color: rgba($color: #000000, $alpha: 0.5);
 }
 
-.loginMenu {
+.loginMenu,
+.registerMenu {
+    display: none;
+
     position: absolute;
     left: 50%;
     top: 50%;
@@ -67,7 +70,7 @@ $box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
             outline: none;
         }
 
-        #submitBut,
+        .submitBut,
         a {
             border: 2px var(--link-color) solid;
             background-color: var(--link-color);
@@ -80,7 +83,7 @@ $box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         }
     }
 
-    #LoginMenuClose {
+    .LoginMenuClose {
         position: absolute;
         top: 0;
         right: 0;
@@ -113,7 +116,7 @@ $box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     }
 }
 
-#LoginMenuClose,
+.LoginMenuClose,
 #login,
 a {
     cursor: pointer;

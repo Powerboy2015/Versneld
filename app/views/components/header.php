@@ -20,7 +20,7 @@
          <li><a>about</a></li>
          <?php if (isset($_SESSION['username'])) : ?>
              <li><a href="/user/profile">my profile</a></li>
-             <li><a href="/home/clear">Log out</a></li>
+             <li><a href="/api/clear">Log out</a></li>
          <?php else : ?>
              <li><a id="login">Log in</a></li>
          <?php endif; ?>

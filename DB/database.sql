@@ -1,8 +1,7 @@
 CREATE DATABASE windSurf;
 
+-- DROP DATABASE windSurf;
 USE windSurf;
-
-
 
 CREATE TABLE Users(
     userId int NOT NULL AUTO_INCREMENT,
@@ -14,11 +13,16 @@ CREATE TABLE Users(
     geboorteDatum date,
     BSN int(9),
     Tel varchar(32),
-    Adres varchar(128) NOT NULL,
+    Adres varchar(128),
     isLoggedIn boolean NOT NULL,
-    userType int NOT NULL,
+    UserType int(1) NOT NULL,
+    isVerified bool,
     PRIMARY KEY (UserId)
 );
+
+-- userType 1 = common user
+-- userType 2 = instructor
+-- userType 3 = admin/owner account
 
 CREATE TABLE Reservation(
     resId int NOT NULL AUTO_INCREMENT,
@@ -40,7 +44,12 @@ CREATE TABLE USERLOG(
     PRIMARY KEY (logId),
     FOREIGN KEY (userId) REFERENCES Users(userId)
 );
-INSERT INTO Users(userName,email,wachtwoord,Adres,isLoggedIn) VALUES ("Zico","hi","yes","yes",true);
 
-SELECT * FROM Users;
 
+INSERT INTO USERLOG(userId,logDate,logType) VALUES (1,'2024-05-28 00:00:00.0','Login');
+INSERT INTO Users(userName,email,wachtwoord,Adres,isLoggedIn,UserType,isVerified) VALUES ('Zico','empty','$2y$10$In2WpgK4CTY1QysVBm7p4epHeIOSFpLDG4s5jdm/Q30GymY7VpLnS','jema',false,1,true);
+
+select * from users;
+select * from USERLOG;
+
+DELETE from userlog where userId < 10;

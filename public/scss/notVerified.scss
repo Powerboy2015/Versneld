@@ -1,0 +1,69 @@
+@use "nav";
+
+@import "config";
+
+header {
+    width: 100%;
+    height: fit-content;
+    background-color: var(--bg-color-main);
+    * {
+        color: var(--bg-color-second) !important;
+    }
+
+    nav {
+        position: relative;
+    }
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+
+    * {
+        box-sizing: border-box;
+    }
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color-second);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.panel {
+    font-size: 2rem;
+    padding: 3rem;
+    background-color: rgba(white, 0.5);
+    box-shadow: var(--box-shadow);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+
+    display: none;
+    flex-direction: column;
+    align-items: center;
+
+    &.active {
+        display: flex;
+    }
+
+    > * {
+        text-align: center;
+        margin: 0;
+        padding: 1rem;
+    }
+
+    > button {
+        width: 30%;
+        height: 3rem;
+    }
+}

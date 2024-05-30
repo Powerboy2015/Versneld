@@ -48,4 +48,15 @@ class ApiModel
         $result = $this->db->resultSet();
         return $result;
     }
+
+    public function checkEmailUsed(string $email): bool
+    {
+        $this->db->query('SELECT email FROM users WHERE email = :email');
+        $this->db->bind(':email', $email);
+
+        if ($this->db->resultSet() != false) {
+            return true;
+        }
+        return false;
+    }
 }

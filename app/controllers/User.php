@@ -15,6 +15,10 @@ class User extends controller
 
         if (isset($_SESSION['username'])) {
             $this->user = $this->usermodel->getUserData($_SESSION['username']);
+
+            if (!$this->user->isVerified) {
+                header('Refresh:0, url=/home/notVerified');
+            }
         } else {
             header('Refresh:0,url=/home/index');
         }
@@ -60,17 +64,5 @@ class User extends controller
     {
         $data = [];
         $this->view("user/change", $data);
-    }
-
-    // this method is will be used to fill authenticate that it is really you who made the account.
-    //Thinking about doing a random password like yassir using the hash.
-    // maybe just a verification record in the profile itself.
-    // #TODO send an email to the user to verify the account, add an extra record if needed.
-    public function verifyUserPass()
-    {
-
-
-        // pulls up the verify form.
-        $this->view("user/verify");
     }
 }

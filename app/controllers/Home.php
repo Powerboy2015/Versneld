@@ -32,6 +32,7 @@ class Home extends controller
 
     public function notVerified()
     {
+        //#TODO make this page not available if the user is already verified.
         $this->view('Home/notVerified');
     }
 
@@ -39,15 +40,22 @@ class Home extends controller
     {
         $newcode = substr($_GET['url'], -60);
         $user = $this->homeModel->isvalidCode($newcode);
-        // prevents method from executing if user does not have a valid code.
-        if (!isset($code) || !$user) {
-            header("refresh:0, url=/home/index");
+
+        // if user is already verified, it just goes to profile page.
+        if ($this->homeModel->isUserVerified($user)) {
+            header("refresh:0, url =/user/profile");
         }
 
-        sleep(0.5);
-        if ($this->USERLOG->userAction(6, $user) && $this->homeModel->Verifyuser()) {
+        // prevents method from executing verification without having the required or any code.
+        if (!isset($code) || $user != false) {
+            header("refresh:10, url=/home/index");
+        }
+
+        // if both my useraction loggin and user verify methods return true we redirect
+        sleep(1);
+        if ($this->USERLOG->userAction(6, $user) && $this->homeModel->Verifyuser($user)) {
             echo "account has been verified! Redirecting...";
-            header("Refresh:0, url=/user/profile");
+            header("Refresh:10, url=/user/profile");
         }
     }
 }

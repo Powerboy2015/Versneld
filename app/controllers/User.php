@@ -39,6 +39,8 @@ class User extends controller
             // checks if each field has a value and if not gives it a placeholder
             if ($value == "" || is_null($value)) {
                 $value = "to be filled in...";
+            } else if ($key == 'wachtwoord') {
+                $value = "**************";
             }
 
             $tablerow .= '<tr>

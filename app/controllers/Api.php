@@ -43,7 +43,7 @@ class Api extends Controller
             echo json_encode(true);
         } else {
             // #TODO make this proper error code.
-            echo json_encode('WHoops, something went wrong');
+            echo json_encode('Username or Email already in use!');
         }
     }
 
@@ -126,5 +126,59 @@ class Api extends Controller
 
         // gives back an true or false.
         echo json_encode($result);
+    }
+
+    public function fetchAdminTable()
+    {
+        $table = $this->apiModel->fetchUsers();
+
+        $tablerows = '';
+
+        foreach ($table as $key => $user) {
+            $tablerows .= '<tr>';
+            foreach ($user as $record => $value) {
+
+                // changes the number in the database to userTypes.
+                if ($record == "UserType") {
+                    switch ($value) {
+                        case 1:
+                            $value = 'user';
+                            break;
+                        case 2:
+                            $value = "Instructor";
+                            break;
+                        case 3:
+                            break;
+                        default:
+                            $value = "user";
+                    }
+                } else if ($record == "isVerified") {
+                    switch ($value) {
+                        case 1:
+                            $value = 'verified';
+                            break;
+                        case 2:
+                            $value = 'not verified';
+                            break;
+                        default:
+                            $value = 'not verified';
+                    }
+                }
+
+                $tablerows .= "<td>" . $value . "</td>";
+            }
+            $tablerows .= "<td class='change-User'> change User </td>
+                           <td class='delete-User'> X </td>";
+            $tablerows .= '</tr>';
+        }
+
+        echo json_encode($tablerows);
+    }
+
+    public function fetchUpdatePanel()
+    {
+        ob_start();
+        include_once APPROOT . 'views/components/updateUser';
+        $result = ob_get_clean();
     }
 }

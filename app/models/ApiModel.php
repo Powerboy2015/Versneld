@@ -84,4 +84,10 @@ class ApiModel
             return false;
         }
     }
+
+    public function fetchUsers()
+    {
+        $this->db->query("SELECT userId,userName,email,Tel,Adres,UserType,isVerified FROM users WHERE userType < 3");
+        return $this->db->resultSet();
+    }
 }

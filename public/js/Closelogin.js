@@ -1,6 +1,7 @@
 const loginBut = document.querySelector("#login");
 const closeBut = document.querySelectorAll(".LoginMenuClose");
 const loginContainer = document.querySelector("#loginContainer");
+const msgEl = document.querySelector('#msg');
 
 //used to login an user. but is also a more streamlined ez way to do fetches.
 async function FetchServerData(location, data) {
@@ -64,20 +65,59 @@ form.addEventListener("submit", (e) => {
     });
 });
 
-// gets the register form values and sends them to the database.
-const registerForm = document.querySelector("#registerForm");
 
+// user register
+const registerForm = document.querySelector("#registerForm");
+const passInput = document.querySelector('#reg-password');
+var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{12,10000}$/;
+const repeatPass = document.querySelector("#rep-password");
+let solidPass = false;
+let samePass = false;
+
+// checks if user password meets requirements.
+passInput.addEventListener('keyup', () =>{
+    if (passInput.value.match(passw)) {
+        passInput.style.border = "2px green solid";
+        solidPass = true;
+    } else {
+        passInput.style.border = "2px red solid";
+        solidPass = false;
+        
+    }
+})
+
+// checks if repeated pass and user pass are the same.
+repeatPass.addEventListener('keyup', () =>{
+    if (repeatPass.value == passInput.value) {
+        repeatPass.style.border = "2px green solid";
+        samePass = true;
+    } else {
+        repeatPass.style.border = "2px red solid";
+        samePass = false;
+    }
+})
+
+
+
+// gets the register form values and sends them to the database.
 registerForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    console.log("Creating new account...");
-    // redirects the register inputs to the serverside
-    CreateUser(new FormData(registerForm)).then((res) => {
-        if (res == true) {
-            // #TODO okay so now it redirects but doesn't set the user yet. so uhm yeah just do that shit.
-            window.location.href = "/user/verifyUserPass";
-        }
-    });
+    
+    if (solidPass && samePass) {
+        console.log("Creating new account...");
+        // redirects the register inputs to the serverside
+        CreateUser(new FormData(registerForm)).then((res) => {
+            if (res == true) {
+                // #TODO okay so now it redirects but doesn't set the user yet. so uhm yeah just do that shit.
+                window.location.href = "/user/verifyUserPass";
+            } else {
+                msgEl.textContent = res;
+            }
+        });
+    } else {
+        msgEl.textContent = 'Password needs to meet requirements and needs to be the same';
+    }
 });
 
 // switches between the login menu and the register menu.

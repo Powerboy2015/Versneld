@@ -1,0 +1,42 @@
+@import "userBase";
+
+#users {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 75%;
+    height: 70%;
+    background-color: var(--bg-color-main);
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+#userTable {
+    padding: 1rem;
+    width: 100%;
+    color: var(--bg-color-second) !important;
+    border-collapse: collapse;
+    font-size: 1.3rem;
+
+    td {
+        border: 1px var(--bg-color-second) solid;
+        text-align: center;
+    }
+}
+
+.change-User,
+.delete-User {
+    &:hover {
+        color: blue;
+        background-color: rgba(black, $alpha: 0.25);
+    }
+    cursor: pointer;
+}
+
+.delete-User {
+}
+
+.change-User {
+}

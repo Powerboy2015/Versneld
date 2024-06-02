@@ -25,13 +25,14 @@
                         <input type="text" name="username" required>
 
                         <label for="password">wachtwoord</label>
-                        <input type="password" name="password" required>
+                        <input type="password" name="password" id="reg-password" required>
 
                         <label for="repeat-pass">herhaal wachtwoord</label>
-                        <input type="password" name="repeat-pass" required>
+                        <input type="password" name="repeat-pass" id="rep-password" required>
+                        <span id="msg"></span>
 
                         <button type="submit" class="submitBut">Log In</button>
-                        <a class="switchMenu"">Already have an account?</a>
+                        <a class="switchMenu">Already have an account?</a>
                 </form>
                 <a class=" LoginMenuClose">X</a>
         </div>

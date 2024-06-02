@@ -18,6 +18,8 @@ class User extends controller
 
             if (!$this->user->isVerified) {
                 header('Refresh:0, url=/home/notVerified');
+            } else if ($this->user->isBlocked) {
+                header("Refresh:0, url=/home/index");
             }
         } else {
             header('Refresh:0,url=/home/index');
@@ -72,5 +74,16 @@ class User extends controller
     public function makeReservation()
     {
         $this->view("user/reserve", $data = ['userType' => $this->user->UserType]);
+    }
+
+    public function adminPanel()
+    {
+        if ($this->user->UserType == 3) {
+
+
+            $this->view('user/AdminPanel', $data = ['userType' => $this->user->UserType]);
+        } else {
+            header('refresh:10, url=/user/profile');
+        }
     }
 }

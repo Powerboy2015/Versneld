@@ -17,7 +17,6 @@ class Verify
                           WHERE wachtwoord = :pass");
         $this->db->bind(':pass', $code);
         $result = $this->db->resultSet();
-        var_dump(($result));
 
         if (isset($result[0])) {
             return $result[0]->userId;

@@ -48,14 +48,14 @@ class Home extends controller
 
         // prevents method from executing verification without having the required or any code.
         if (!isset($code) || $user != false) {
-            header("refresh:10, url=/home/index");
+            header("refresh:0, url=/home/index");
         }
 
         // if both my useraction loggin and user verify methods return true we redirect
         sleep(1);
         if ($this->USERLOG->userAction(6, $user) && $this->homeModel->Verifyuser($user)) {
             echo "account has been verified! Redirecting...";
-            header("Refresh:10, url=/user/profile");
+            header("Refresh:0, url=/user/profile");
         }
     }
 }

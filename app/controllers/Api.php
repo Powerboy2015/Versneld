@@ -221,7 +221,7 @@ class Api extends Controller
     }
 
     // as usual, acquires data through POST
-    public function changeData(string $username)
+    public function changeData(string $username = null)
     {
         // redirects data and model anwser.
         //But only if the email is a legit email
@@ -231,6 +231,7 @@ class Api extends Controller
             if (isset($username)) {
                 echo json_encode($this->apiModel->updateUser($this->apiModel->getUser($username)->userId, $_POST));
             } else {
+                $_SESSION['username'] = $_POST['userName'];
                 echo json_encode($this->apiModel->updateUser($this->user->userId, $_POST));
             }
         }

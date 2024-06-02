@@ -35,7 +35,7 @@ class User extends controller
         // only feeds the non backend information through
 
         $tablerow = "";
-        foreach ($this->user as $key => $value) {
+        foreach ($this->usermodel->getProfile($_SESSION['username']) as $key => $value) {
             // checks if each field has a value and if not gives it a placeholder
             if ($value == "" || is_null($value)) {
                 $value = "to be filled in...";
@@ -49,7 +49,8 @@ class User extends controller
         }
 
         $data = [
-            'userTable' => $tablerow
+            'userTable' => $tablerow,
+            'userType'  => $this->user->UserType
         ];
         $this->view("user/profile", $data);
     }
@@ -57,7 +58,7 @@ class User extends controller
     public function reservations()
     {
 
-        $this->view('user/reservations');
+        $this->view('user/reservations', $data = ['userType' => $this->user->UserType]);
     }
 
     // calls for the user change page, But I might want to do this inside the website already.
@@ -66,5 +67,10 @@ class User extends controller
     {
         $data = [];
         $this->view("user/change", $data);
+    }
+
+    public function makeReservation()
+    {
+        $this->view("user/reserve", $data = ['userType' => $this->user->UserType]);
     }
 }

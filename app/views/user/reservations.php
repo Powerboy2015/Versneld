@@ -21,12 +21,6 @@
                                                                 ?></h1>
                     <div class="reservationTable">
                         <!-- table with all the reservations. -->
-                        <div class="card">
-                            <h2>28-5-2024</h2>
-
-                        </div>
-
-
                     </div>
                 </div>
             </section>

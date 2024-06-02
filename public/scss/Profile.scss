@@ -91,19 +91,6 @@ main {
     position: relative;
 }
 
-// main.grid {
-//     display: grid;
-//     grid-template-columns: 10rem auto;
-// }
-
-// main > aside {
-//     grid-column: 1;
-// }
-
-// main > article {
-//     grid-column: 2;
-// }
-
 #userInfo {
     h3 {
         text-align: center;
@@ -111,6 +98,7 @@ main {
 }
 
 .userTable {
+    font-size: 1.5rem;
     > tbody > tr > th {
         text-align: right;
         padding-right: 1rem;

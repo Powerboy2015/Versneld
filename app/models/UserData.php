@@ -12,8 +12,18 @@ class UserData
 
     public function getUserData($userName)
     {
-        $this->db->query('SELECT userName,wachtwoord,email,firstName,lastName,geboorteDatum,BSN,Tel,Adres,isVerified FROM Users WHERE userName = :username');
+        $this->db->query('SELECT * FROM Users WHERE userName = :username');
         $this->db->bind(":username", $userName);
         return $this->db->single();
+    }
+
+    public function getProfile(string $username)
+    {
+        $this->db->query('SELECT UserName,Email,FirstName,LastName,GeboorteDatum,BSN,Tel,Adres FROM users WHERE UserName = :username');
+        $this->db->bind(":username", $username);
+
+        $result = $this->db->single();
+
+        return $result;
     }
 }

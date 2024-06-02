@@ -36,11 +36,11 @@ class ApiModel
         return $this->db->single();
     }
 
-    public function getReservations(string $userId): object
+    public function getReservations(string $userId): object|array
     {
         #TODO Get all the reservations that are connected to the user.
         $this->db->query('SELECT * 
-                          FROM reservations 
+                          FROM Reservation 
                           WHERE userId = :userId
                           ');
 
@@ -58,5 +58,30 @@ class ApiModel
             return true;
         }
         return false;
+    }
+
+
+    // creates a reservation using the postdata from the array and the userID from the user.
+    public function createReservation(int|string $userId, array $postdata)
+    {
+        $this->db->query("INSERT INTO Reservation(userId,startdatum, eindDatum,pakketType,locatie,aantPers)
+                               VALUES (:userId,:startDatum,:eindDatum,:pakketType,:locatie,:aantPers);");
+        $this->db->bind(':userId', $userId);
+
+        $startDate = new dateTime($postdata['startdate']);
+        $this->db->bind(':startDatum', $startDate->format('Y-m-d h:i:s'));
+
+        $endDate = new DateTime($postdata['enddate']);
+        $this->db->bind(':eindDatum', $endDate->format('Y-m-d h:i:s'));
+
+        $this->db->bind(':pakketType', $postdata['pakketType']);
+        $this->db->bind(':locatie', $postdata['location']);
+        $this->db->bind(':aantPers', $postdata['amountPeople']);
+
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

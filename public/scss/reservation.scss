@@ -104,16 +104,19 @@ main {
         border-radius: 8px;
         border: 1px white solid;
         box-shadow: var(--box-shadow);
+        font-size: 0.75rem;
 
-        padding: 2rem;
+        padding: 1rem;
 
         > h2 {
-            font-size: 2rem !important;
+            font-size: 2em !important;
             text-align: center;
         }
 
         > p {
             margin: 0.2rem;
+            font-size: 1em;
+            text-align: center;
         }
     }
 }

@@ -14,7 +14,9 @@ class Api extends Controller
         session_start();
         $this->apiModel = $this->model("ApiModel");
         $this->USERLOG = $this->model("userlog");
-        $this->user = $this->model("UserData")->getUserData($_SESSION['username']);
+        if (isset($_SESSION['username'])) {
+            $this->user = $this->model("UserData")->getUserData($_SESSION['username']);
+        }
     }
 
     // loops through the values provided by the register form and are  bound to the  placeholder values in the SQL statment.
@@ -25,7 +27,6 @@ class Api extends Controller
         // Checks if passwords are filled in the same, 
         //if it's an actual email 
         //and if it is stored into the database.
-
 
         if (
             $_POST['password'] === $_POST['repeat-pass']
@@ -70,59 +71,6 @@ class Api extends Controller
         header("refresh:0, url=/home/index");
     }
 
-    // a part api that calls all reservations form the database.
-    // #TODO this an api so we can do search queries and dynamically load the list.
-    public function getReservations()
-    {
-        $result = $this->apiModel->getReservations($_POST);
-
-        $data = [];
-
-        $tablerow = "";
-
-        // loops through each reservation
-        foreach ($result as $table => $fields) {
-            // loops through each value in the reservation.
-            foreach ($fields as $key => $value) {
-                //#TODO switch case statement here to change the required data.
-
-                $tablerow .=    '<tr>
-                                <th>' . ucwords($key) . '</td>
-                                <td>' .    $value     . '</td>
-                            </tr>';
-            }
-
-            // add the table of reservation data to the data variable using the reservation Id
-            $data[$fields->resId] = $tablerow;
-        }
-
-        // sends back the data to the javascript.
-        echo $data;
-    }
-
-    // this method is will be used to fill authenticate that it is really you who made the account.
-    //Thinking about doing a random password like yassir using the hash.
-    // maybe just a verification record in the profile itself.
-    // #TODO send an email to the user to verify the account, add an extra record if needed.
-    public function verifyUser(string $hashpasss)
-    {
-
-        // pulls up the verify form.
-        $this->view("user/verify");
-    }
-
-    public function TestEmail()
-    {
-
-        $testMail = new Mail('windschool12@gmail.com', 'zico');
-        echo $testMail->body('test', 'register', $this->user);
-        // $testMail->body('test', 'register',);
-
-        // if ($testMail->send()) {
-        // echo 'mail sent, check inbox!';
-        // }
-    }
-
     // Sends the verification email to the user again.
     public function sendVerifyEmail()
     {
@@ -134,5 +82,49 @@ class Api extends Controller
         } else {
             echo json_encode(false);
         }
+    }
+
+    public function getReservations()
+    {
+        $result = $this->apiModel->getReservations($this->user->userId);
+
+        $data = [];
+
+        // we rebuild the whole object but change all the required values.
+        foreach ($result as $key => $res) {
+            $arr = [];
+            foreach ($res as $record => $value) {
+                if ($record == "pakketType") {
+                    switch ($value) {
+                        case 1:
+                            $value = 'Privéles 2,5 uur';
+                            break;
+                        case 2:
+                            $value = 'Losse Duo Kiteles 3,5 uur';
+                            break;
+                        case 3:
+                            $value = 'Kitesurf Duo lespakket 3 lessen 10,5 uur';
+                            break;
+                        case 4:
+                            $value = 'Kitesurf Duo lespakket 5 lessen 17,5 uur';
+                            break;
+                    }
+                }
+                $arr[$record] = $value;
+            }
+            $data[$key] = $arr;
+        }
+
+        echo json_encode($data);
+    }
+
+    // right okay so you get all of your data from the POST.
+    public function createReservation()
+    {
+        // just redirecting it to our model.
+        $result = $this->apiModel->createReservation($this->user->userId, $_POST);
+
+        // gives back an true or false.
+        echo json_encode($result);
     }
 }

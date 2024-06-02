@@ -82,7 +82,7 @@ getUsers().then((resp) =>{
             e.preventDefault();
             openPanel(element.href).then((resp) => {
                 bod.innerHTML = resp;
-                
+                createPanelPost();
                 // closes the update user panel
                 createCloseBut();
                 
@@ -105,6 +105,12 @@ getUsers().then((resp) =>{
     
 })
 
-
-
-
+function createPanelPost() {
+    const form = document.querySelector("#changeForm");
+    form.addEventListener('submit', (e) =>{
+        e.preventDefault();
+        updateUserType(new FormData(form), form.action).then((resp) =>{
+            bod.innerHTML = '';
+        })
+    })
+}

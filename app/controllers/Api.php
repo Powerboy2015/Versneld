@@ -181,7 +181,7 @@ class Api extends Controller
     public function fetchUpdatePanel(string $username = null): void
     {
         // uses SESSION username instead of given string as username.
-        if (isset($username) || $this->user->UserType == 3) {
+        if (isset($username) && $this->user->UserType == 3) {
             $result = $this->apiModel->getUserData($username);
         } else {
             $result = $this->apiModel->getUserData($_SESSION['username']);
@@ -217,14 +217,18 @@ class Api extends Controller
     }
 
     // as usual, acquires data through POST
-    public function changeData()
+    public function changeData(string $username)
     {
         // redirects data and model anwser.
         //But only if the email is a legit email
         if (!filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)) {
             echo json_encode("email not clean!");
         } else {
-            echo json_encode($this->apiModel->updateUser($this->user->userId, $_POST));
+            if (isset($username)) {
+                echo json_encode($this->apiModel->updateUser($this->apiModel->getUser($username)->userId, $_POST));
+            } else {
+                echo json_encode($this->apiModel->updateUser($this->user->userId, $_POST));
+            }
         }
     }
 

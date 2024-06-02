@@ -38,6 +38,10 @@ class Api extends Controller
             $_SESSION['username'] = $_POST['username'];
             $user = $this->apiModel->getUser($_SESSION['username']);
 
+            $Email = new Mail($this->user->email, $user->userName);
+            $Email->body('Welcome ' . $_SESSION['username'], 'verify', $this->user);
+            $Email->send();
+
             $this->USERLOG->userAction(3, $user->userId);
             $this->USERLOG->userAction(1, $user->userId);
             echo json_encode(true);

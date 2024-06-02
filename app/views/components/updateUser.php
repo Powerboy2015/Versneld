@@ -1,6 +1,6 @@
 <div class="darken">
     <section id="updateUser">
-        <h1>Update data of <?php echo $_SESSION['username'] ?></h1>
+        <h1>Update data of <?php echo $data['userName'] ?></h1>
         <span id="button-close">X</span>
         <form action="/user/profile" method="POST" id="changeForm">
             <?php echo $data['rows'] ?>

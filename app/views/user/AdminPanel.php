@@ -9,12 +9,12 @@
 </head>
 
 <body>
+    <div id="open"></div>
     <header>
         <?php require_once APPROOT . '/views/components/header.php'; ?>
     </header>
     <main>
         <?php require_once APPROOT . '/views/components/sideMenu.php'; ?>
-
         <div class="container">
             <section id="users">
                 <!-- Dip in panel of users. -->

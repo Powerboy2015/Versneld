@@ -152,6 +152,7 @@ class Api extends Controller
                         default:
                             $value = "user";
                     }
+                    $tablerows .= "<td class='user-type'>" . $value . "</td>";
                 } else if ($record == "isVerified") {
                     switch ($value) {
                         case 1:
@@ -163,11 +164,12 @@ class Api extends Controller
                         default:
                             $value = 'not verified';
                     }
+                    $tablerows .= "<td>" . $value . "</td>";
+                } else {
+                    $tablerows .= "<td>" . $value . "</td>";
                 }
-
-                $tablerows .= "<td>" . $value . "</td>";
             }
-            $tablerows .= "<td class='change-User'> change User </td>
+            $tablerows .= "<td><a class='change-User' href='/api/fetchUpdatePanel/" . $user->userName . "'>change User</a></td>
                            <td class='delete-User'> X </td>";
             $tablerows .= '</tr>';
         }
@@ -176,10 +178,16 @@ class Api extends Controller
     }
 
     // calls for updateUser template, and shoots it back to the js code
-    public function fetchUpdatePanel(): void
+    public function fetchUpdatePanel(string $username = null): void
     {
-        $result = $this->apiModel->getUserData($_SESSION['username']);
+        // uses SESSION username instead of given string as username.
+        if (isset($username) || $this->user->UserType == 3) {
+            $result = $this->apiModel->getUserData($username);
+        } else {
+            $result = $this->apiModel->getUserData($_SESSION['username']);
+        }
 
+        // adds autmatically filled labels and input for all the fields.
         $tablerows = '';
         foreach ($result[0] as $record => $value) {
             if ($record == "geboorteDatum") {
@@ -195,9 +203,11 @@ class Api extends Controller
         }
 
         $data = [
-            'rows' => $tablerows
+            'rows' => $tablerows,
+            'userName' => $result[0]->userName
         ];
 
+        // gets the page fully filled in
         ob_start();
         $this->view('components/updateUser', $data);
         $result = ob_get_clean();
@@ -216,5 +226,12 @@ class Api extends Controller
         } else {
             echo json_encode($this->apiModel->updateUser($this->user->userId, $_POST));
         }
+    }
+
+    public function openElevationPanel()
+    {
+        ob_start();
+        $this->view('component/elevation');
+        echo json_encode(ob_get_clean());
     }
 }

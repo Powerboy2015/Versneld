@@ -82,10 +82,9 @@ class User extends controller
     {
         if ($this->user->UserType == 3) {
 
-
             $this->view('user/AdminPanel', $data = ['userType' => $this->user->UserType]);
         } else {
-            header('refresh:10, url=/user/profile');
+            header('refresh:0, url=/user/profile');
         }
     }
 }

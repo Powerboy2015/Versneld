@@ -14,36 +14,68 @@ async function getUsers() {
     }
 }
 
-async function openChangePanel(userId) {
-    const response = await fetch('/api/fetchUpdatePanel', {
-        method:"POST",
-        body: userId
-    })
+async function openPanel(link){
+    const response = await fetch(link)
 
     if (response.ok) {
         return response.json();
     } else {
-        return null;
+        return false;
     }
 }
 
+async function openElevationPanel(){
+    const response = await fetch('/api/elevation')
+
+    if (response.ok) {
+        return response.json();
+    } else {
+        return false;
+    }
+}
+
+function createCloseBut() {
+    const closeBut= document.querySelector('#button-close');
+                closeBut.addEventListener('click',(e) =>{
+                    bod.innerHTML = '';
+                })
+}
+
+function userTypeListener(){
+
+}
+
+
+const bod = document.querySelector('#open');
 // just copies the html code into the panel.
 getUsers().then((resp) =>{
     panel.innerHTML = resp;
-})
 
-const rows = document.querySelectorAll('tbody > tr');
-
-rows.forEach((element) =>{
+    const changeUser = document.querySelectorAll('.change-User');
     
-    let changeUser = element.querySelector('.change-User');
-    let userId = element.querySelector('tr');
-
-    changeUser.addEventListener('click', (e) =>{
-        // there is no default,this just checks incase.
-        e.preventDefault();
-        openChangePanel(userId);
-
+    changeUser.forEach((element) => {
+        element.addEventListener('click', (e) =>{
+            e.preventDefault();
+            openPanel(element.href).then((resp) => {
+                bod.innerHTML = resp;
+                
+                // closes the update user panel
+                createCloseBut();
+                
+            });
+        })
     })
+
+    const userTypes = document.querySelectorAll('.user-type');
+
+    userTypes.forEach((element) =>{
+        element.addEventListener('click',(e) =>{
+            openElevationPanel().then((resp) =>{
+                bod.innerHTML= resp;
+            })
+        })
+    })
+    
 })
+
 

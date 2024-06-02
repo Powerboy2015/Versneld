@@ -175,10 +175,46 @@ class Api extends Controller
         echo json_encode($tablerows);
     }
 
-    public function fetchUpdatePanel()
+    // calls for updateUser template, and shoots it back to the js code
+    public function fetchUpdatePanel(): void
     {
+        $result = $this->apiModel->getUserData($_SESSION['username']);
+
+        $tablerows = '';
+        foreach ($result[0] as $record => $value) {
+            if ($record == "geboorteDatum") {
+                $tablerows .= "<label>" . $record . "</label>
+                           <input type='date' name='" . $record . "' value ='" . $value . "'>";
+            } else if ($record == "BSN") {
+                $tablerows .= "<label>" . $record . "</label>
+                           <input type='number' min='100000000' max='999999999' name='" . $record . "' value ='" . $value . "'>";
+            } else {
+                $tablerows .= "<label>" . $record . "</label>
+                               <input type='text' maxlength='129' name='" . $record . "' value ='" . $value . "'>";
+            }
+        }
+
+        $data = [
+            'rows' => $tablerows
+        ];
+
         ob_start();
-        include_once APPROOT . 'views/components/updateUser';
+        $this->view('components/updateUser', $data);
         $result = ob_get_clean();
+
+        // return file back to the js for the fetch
+        echo json_encode($result);
+    }
+
+    // as usual, acquires data through POST
+    public function changeData()
+    {
+        // redirects data and model anwser.
+        //But only if the email is a legit email
+        if (!filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)) {
+            echo json_encode("email not clean!");
+        } else {
+            echo json_encode($this->apiModel->updateUser($this->user->userId, $_POST));
+        }
     }
 }

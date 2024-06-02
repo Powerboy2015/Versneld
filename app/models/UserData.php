@@ -19,7 +19,7 @@ class UserData
 
     public function getProfile(string $username)
     {
-        $this->db->query('SELECT UserName,Email,FirstName,LastName,GeboorteDatum,BSN,Tel,Adres FROM users WHERE UserName = :username');
+        $this->db->query('SELECT UserName,Email,GeboorteDatum,BSN,Tel,Adres FROM users WHERE UserName = :username');
         $this->db->bind(":username", $username);
 
         $result = $this->db->single();

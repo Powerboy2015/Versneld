@@ -17,8 +17,7 @@
         <div class="container">
             <section id="reservations">
                 <div class="inner">
-                    <h1>Lastest resverations for Placeholder <?php //echo $data['username'] 
-                                                                ?></h1>
+                    <h1>Latest resverations for <?php echo $_SESSION['username']; ?></h1>
                     <div class="reservationTable">
                         <!-- table with all the reservations. -->
                     </div>

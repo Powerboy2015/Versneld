@@ -6,7 +6,7 @@
                     <li><a href="/user/Reservations">Reservations</a></li>
                     <li><a href="/user/makeReservation">create reservation</a></li>
                 <?php elseif ($data['userType'] == 3) : ?>
-                    <li><a href="/admin/users">Users</a></li>
+                    <li><a href="/user/adminPanel">Users</a></li>
                 <?php endif; ?>
                 <?php if ($data['userType'] > 1) : ?>
                     <li><a href="/admin/reservations">reservation</a></li>

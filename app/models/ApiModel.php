@@ -62,7 +62,7 @@ class ApiModel
 
 
     // creates a reservation using the postdata from the array and the userID from the user.
-    public function createReservation(int|string $userId, array $postdata)
+    public function createReservation(int|string $userId, array $postdata): bool
     {
         $this->db->query("INSERT INTO Reservation(userId,startdatum, eindDatum,pakketType,locatie,aantPers)
                                VALUES (:userId,:startDatum,:eindDatum,:pakketType,:locatie,:aantPers);");
@@ -85,9 +85,45 @@ class ApiModel
         }
     }
 
-    public function fetchUsers()
+    public function fetchUsers(): array
     {
         $this->db->query("SELECT userId,userName,email,Tel,Adres,UserType,isVerified FROM users WHERE userType < 3");
         return $this->db->resultSet();
+    }
+
+    // gets all required userdata to change it.
+    public function getUserData(string $username): array
+    {
+        $this->db->query("SELECT userName,email,geboorteDatum,BSN,Tel,Adres FROM Users WHERE userName = :username");
+        $this->db->bind(":username", $username);
+
+        $result = $this->db->resultSet();
+
+        return $result;
+    }
+
+    public function updateUser(int|string $userId, array $formData)
+    {
+        $this->db->query("UPDATE users
+                          SET userName = :username,
+                              email= :email,
+                              geboorteDatum = :date,
+                              BSN = :BSN,
+                              Tel = :Tel,
+                              Adres = :Adres
+                          WHERE userId = :userId");
+        $this->db->bind(":username", $formData['userName']);
+        $this->db->bind(':email', $formData['email']);
+        $this->db->bind(":date", $formData['geboorteDatum']);
+        $this->db->bind(":BSN", $formData['BSN']);
+        $this->db->bind(":Tel", $formData['Tel']);
+        $this->db->bind(":Adres", $formData['Adres']);
+        $this->db->bind(":userId", $userId);
+
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

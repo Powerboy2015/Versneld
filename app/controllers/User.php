@@ -18,7 +18,9 @@ class User extends controller
 
             if (!$this->user->isVerified) {
                 header('Refresh:0, url=/home/notVerified');
-            } else if ($this->user->isBlocked) {
+
+                // if the user islbocked is true it will not let them get into the page. This can be done by the admin(owner account).
+            } else if ($this->user->isBlocked == 1) {
                 header("Refresh:0, url=/home/index");
             }
         } else {

@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <div id="open"></div>
     <header>
         <!-- main head menu -->
         <?php require_once APPROOT . '/views/components/header.php'; ?>
@@ -25,7 +26,7 @@
                             <?php echo $data['userTable'] ?>
                         </table>
 
-                        <a href="/user/change">Change information</a>
+                        <a id="ChangeInfo">Change information</a>
                     </article>
                 </div>
             </section>

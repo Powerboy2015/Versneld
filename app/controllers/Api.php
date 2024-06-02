@@ -152,7 +152,7 @@ class Api extends Controller
                         default:
                             $value = "user";
                     }
-                    $tablerows .= "<td class='user-type'>" . $value . "</td>";
+                    $tablerows .= "<td><a class='user-type' href='/api/openElevationPanel/" . $user->userName . "'>" . $value . "</a></td>";
                 } else if ($record == "isVerified") {
                     switch ($value) {
                         case 1:
@@ -228,10 +228,19 @@ class Api extends Controller
         }
     }
 
-    public function openElevationPanel()
+    public function openElevationPanel(string $username)
     {
+        $data = [
+            'username' => $username
+        ];
         ob_start();
-        $this->view('component/elevation');
+        $this->view('components/elevation', $data);
         echo json_encode(ob_get_clean());
+    }
+
+    public function updateUserType(string $username)
+    {
+        $res = $this->apiModel->getUser($username);
+        echo json_encode($this->apiModel->updateUserType($_POST['userType'], $res->userId));
     }
 }

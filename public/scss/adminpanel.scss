@@ -25,12 +25,18 @@
         border: 1px var(--bg-color-second) solid;
         text-align: center;
     }
+
+    a {
+        color: var(--bg-color-second);
+        text-decoration: none;
+    }
 }
 
 .change-User,
-.delete-User {
+.delete-User,
+.user-type {
     &:hover {
-        color: blue;
+        color: blue !important;
         background-color: rgba(black, $alpha: 0.25);
     }
     cursor: pointer;

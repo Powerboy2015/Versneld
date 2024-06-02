@@ -126,4 +126,27 @@ class ApiModel
             return false;
         }
     }
+
+    public function updateUserType(int $userType, int $userId)
+    {
+        if ($userType == 4) {
+            $this->db->query('UPDATE users
+                              set userType = 1,
+                                  isBlocked = true
+                              WHERE userId = :userId');
+        } else {
+            $this->db->query('UPDATE users
+                              set userType = :userType,
+                                  isBlocked = false
+                              WHERE userId = :userId');
+            $this->db->bind(":userType", $userType);
+        }
+        $this->db->bind(":userId", $userId);
+
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -24,14 +24,28 @@ async function openPanel(link){
     }
 }
 
-async function openElevationPanel(){
-    const response = await fetch('/api/elevation')
+async function openElevationPanel(link){
+    const response = await fetch(link)
 
     if (response.ok) {
         return response.json();
     } else {
         return false;
     }
+}
+
+async function updateUserType(data,link) {
+    const response = await fetch(link,{
+        method: "POST",
+        body:data
+    })
+
+    if(response.ok) {
+        return response.json();
+    } else {
+        return null;
+    }
+
 }
 
 function createCloseBut() {
@@ -41,13 +55,23 @@ function createCloseBut() {
                 })
 }
 
-function userTypeListener(){
+function addResponseEvent() {
+    const form = document.querySelector("#userForm");
+    form.addEventListener('submit',(e) =>{
+        e.preventDefault();
 
+        let data = new FormData(form);
+        console.log(form.action)
+        updateUserType(data,form.action);
+    })
 }
-
 
 const bod = document.querySelector('#open');
 // just copies the html code into the panel.
+
+
+
+// START IS HERE
 getUsers().then((resp) =>{
     panel.innerHTML = resp;
 
@@ -70,12 +94,17 @@ getUsers().then((resp) =>{
 
     userTypes.forEach((element) =>{
         element.addEventListener('click',(e) =>{
-            openElevationPanel().then((resp) =>{
+            e.preventDefault();
+            openElevationPanel(element.href).then((resp) =>{
                 bod.innerHTML= resp;
+                createCloseBut();
+                addResponseEvent();
             })
         })
     })
     
 })
+
+
 
 

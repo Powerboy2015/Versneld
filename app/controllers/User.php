@@ -87,4 +87,19 @@ class User extends controller
             header('refresh:0, url=/user/profile');
         }
     }
+
+
+    // #TODO I don't think this exists anymore. could prolly be deleted 
+    public function AdminRes()
+    {
+        if ($this->usermodel->getUsrType($_SESSION['username']) != 3) {
+            header("refresh:0,url=/user/profile");
+        }
+
+
+        $data = [
+            'userType'  => $this->user->UserType
+        ];
+        $this->view('user/AdminReservation', $data);
+    }
 }

@@ -36,15 +36,20 @@ class ApiModel
         return $this->db->single();
     }
 
-    public function getReservations(string $userId): object|array
+    public function getReservations(string $userId = null): object|array
     {
-        #TODO Get all the reservations that are connected to the user.
-        $this->db->query('SELECT * 
+        if (!isset($userId)) {
+            $this->db->query('SELECT * 
+                          FROM Reservation 
+                          ');
+        } else {
+            $this->db->query('SELECT * 
                           FROM Reservation 
                           WHERE userId = :userId
                           ');
+            $this->db->bind(":userId", $userId);
+        }
 
-        $this->db->bind(":userId", $userId);
         $result = $this->db->resultSet();
         return $result;
     }
@@ -148,5 +153,21 @@ class ApiModel
         } else {
             return false;
         }
+    }
+
+    public function editRes(int $resId, array $postData)
+    {
+        $this->db->query('UPDATE Reservation
+                          SET instructorId = :instructorId,
+                              startDatum = :startDatum,
+                              einDatum = :eindDatum,
+                              pakketType = :pakketType,
+                              locatie = :locatie,
+                              aantPers = :aantPers,
+                              resStatus =:resStatus
+                          WHERE resId = :resId');
+
+        // TODO fix this shit.
+        // $this->db->bind();
     }
 }

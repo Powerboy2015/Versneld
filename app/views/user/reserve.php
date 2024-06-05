@@ -33,6 +33,8 @@
                         <option value="4">Kitesurf Duo lespakket 5 lessen 17,5 uur</option>
                     </select>
 
+                    <!-- #TODO add an option to choose instructors. This has to be dynamically added. -->
+
                     <label for="location">Location</label>
                     <select name="location" required>
                         <option value="Zandvoort">Zandvoort</option>

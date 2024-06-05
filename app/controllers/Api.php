@@ -88,38 +88,49 @@ class Api extends Controller
         }
     }
 
+    // gets the reservations and builds them into cards to display.
     public function getReservations()
     {
-        $result = $this->apiModel->getReservations($this->user->userId);
-
-        $data = [];
-
-        // we rebuild the whole object but change all the required values.
-        foreach ($result as $key => $res) {
-            $arr = [];
-            foreach ($res as $record => $value) {
-                if ($record == "pakketType") {
-                    switch ($value) {
-                        case 1:
-                            $value = 'Privéles 2,5 uur';
-                            break;
-                        case 2:
-                            $value = 'Losse Duo Kiteles 3,5 uur';
-                            break;
-                        case 3:
-                            $value = 'Kitesurf Duo lespakket 3 lessen 10,5 uur';
-                            break;
-                        case 4:
-                            $value = 'Kitesurf Duo lespakket 5 lessen 17,5 uur';
-                            break;
-                    }
-                }
-                $arr[$record] = $value;
-            }
-            $data[$key] = $arr;
+        if ($this->user->UserType == 3) {
+            $result = $this->apiModel->getReservations();
+        } else {
+            $result = $this->apiModel->getReservations($this->user->userId);
         }
 
-        echo json_encode($data);
+        $reservations = "<div class='inner'>";
+        foreach ($result as $key => $res) {
+            switch ($res->pakketType) {
+                case 1:
+                    $type = "Privéles 2,5 uur";
+                    break;
+                case 2:
+                    $type = "Losse Duo Kiteles 3,5 uur";
+                    break;
+                case 3:
+                    $type = "Kitesurf Duo lespakket 3 lessen 10,5 uur";
+                    break;
+                case 4:
+                    $type = "Kitesurf Duo lespakket 5 lessen 17,5 uur";
+                    break;
+                default:
+                    $type = "Geen gekozen, error?";
+                    break;
+            }
+
+            // card body.   
+            $reservations .= "<div class='card'>
+                                <h2>reservation Id: {$res->resId}</h2>
+                                <p> {$res->startDatum} - {$res->eindDatum}</p>
+                                <p> Locatie: {$res->locatie}</p>
+                                <p> {$type}</p>
+                                <p> aantal personen: {$res->aantPers}</p>
+                                <a class='changeRes' href='/admin/callRes/{$res->resId}'>change</a>
+                                <a class='DeleteRes' href='/admin/DeleteRes/{$res->resId}'>Delete</a>
+                              </div>";
+        }
+
+        $reservations .= "</div>";
+        echo json_encode($reservations);
     }
 
     // right okay so you get all of your data from the POST.
@@ -152,6 +163,7 @@ class Api extends Controller
                             $value = "Instructor";
                             break;
                         case 3:
+                            $value = "admin";
                             break;
                         default:
                             $value = "user";
@@ -251,5 +263,10 @@ class Api extends Controller
     {
         $res = $this->apiModel->getUser($username);
         echo json_encode($this->apiModel->updateUserType($_POST['userType'], $res->userId));
+    }
+
+    public function editRes(int $resId)
+    {
+        echo json_encode($this->apiModel->editRes($resId, $_POST));
     }
 }

@@ -26,4 +26,18 @@ class UserData
 
         return $result;
     }
+
+    public function getUsrId(string $username)
+    {
+        $this->db->query('SELECT userId FROM users WHERE userName = :userName');
+        $this->db->bind(":userName", $username);
+        return $this->db->single()->userId;
+    }
+
+    public function getUsrType(string $username)
+    {
+        $this->db->query('SELECT userType FROM users WHERE userName = :userName');
+        $this->db->bind(":userName", $username);
+        return $this->db->single()->userType;
+    }
 }

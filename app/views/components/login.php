@@ -8,6 +8,7 @@
                         <label for="password">Wachtwoord</label>
                         <input type="password" name="password" id="password" autocomplete="off">
 
+                        <span id="msg-login"></span>
                         <button type="submit" class="submitBut">Log In</button>
                         <a class="switchMenu">Register now</a>
                 </form>

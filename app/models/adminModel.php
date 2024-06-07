@@ -29,4 +29,42 @@ class adminModel
             return $ref->userName;
         }
     }
+
+    public function getInstructors()
+    {
+        $this->db->query("SELECT userId, userName,UserType FROM users WHERE userType = 2");
+        $result = $this->db->resultSet();
+
+        return $result;
+    }
+
+    public function updateRes($postdata, $resId)
+    {
+        $this->db->query('UPDATE reservation 
+                          SET startDatum = :startDatum,
+                              eindDatum = :eindDatum,
+                              pakketType = :pakketType,
+                              locatie = :locatie,
+                              aantPers = :aantPers,
+                              instructorId = :instructorId,
+                              resStatus = :resStatus
+                          WHERE resId = :resId
+                              ;');
+
+        $this->db->bind(':resId', $resId);
+
+        $startDate = new dateTime($postdata['startDatum']);
+        $this->db->bind(':startDatum', $startDate->format('Y-m-d h:i:s'));
+
+        $endDate = new DateTime($postdata['eindDatum']);
+        $this->db->bind(':eindDatum', $endDate->format('Y-m-d h:i:s'));
+
+        $this->db->bind(':pakketType', $postdata['pakketType']);
+        $this->db->bind(':locatie', $postdata['locatie']);
+        $this->db->bind(':aantPers', $postdata['aantPers']);
+        $this->db->bind(':instructorId', $postdata['instructorId']);
+        $this->db->bind(':resStatus', $postdata['resStatus']);
+
+        return $this->db->execute();
+    }
 }

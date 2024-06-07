@@ -40,4 +40,18 @@ class UserData
         $this->db->bind(":userName", $username);
         return $this->db->single()->userType;
     }
+    public function getInstructors()
+    {
+        $this->db->query("SELECT userId, userName FROM users WHERE userType = 2");
+        $result = $this->db->resultSet();
+
+        return $result;
+    }
+
+    public function cancelReservation(int $resId)
+    {
+        $this->db->query('DELETE FROM Reservation WHERE resId = :resId');
+        $this->db->bind(':resid', $resId);
+        return $this->db->execute();
+    }
 }

@@ -2,6 +2,7 @@ const loginBut = document.querySelector("#login");
 const closeBut = document.querySelectorAll(".LoginMenuClose");
 const loginContainer = document.querySelector("#loginContainer");
 const msgEl = document.querySelector('#msg');
+const msgElLogin = document.querySelector('#msg-login');
 
 //used to login an user. but is also a more streamlined ez way to do fetches.
 async function FetchServerData(location, data) {
@@ -54,7 +55,9 @@ form.addEventListener("submit", (e) => {
 
     // tries to login user
     FetchServerData("/api/login", new FormData(form)).then((res) => {
-        console.log(res);
+        if (!res) {
+            msgElLogin.textContent = 'user or password incorrect!';
+        }
 
         if (res == true) {
             // sends the form and the action
@@ -109,7 +112,8 @@ registerForm.addEventListener("submit", (e) => {
         // redirects the register inputs to the serverside
         CreateUser(new FormData(registerForm)).then((res) => {
             if (res == true) {
-                // #TODO okay so now it redirects but doesn't set the user yet. so uhm yeah just do that shit.
+                // should be fixed now, test later
+                // fix has been functional
                 window.location.href = "/user/verifyUserPass";
             } else {
                 msgEl.textContent = res;

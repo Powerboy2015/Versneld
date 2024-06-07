@@ -27,7 +27,7 @@ class ApiModel
 
     public function getUser(string $username): bool|object
     {
-        $this->db->query("SELECT userId,username, wachtwoord 
+        $this->db->query("SELECT userId,userName,email, wachtwoord 
                           FROM Users 
                         WHERE username = :username");
         $this->db->bind(":username", $username);
@@ -69,8 +69,8 @@ class ApiModel
     // creates a reservation using the postdata from the array and the userID from the user.
     public function createReservation(int|string $userId, array $postdata): bool
     {
-        $this->db->query("INSERT INTO Reservation(userId,startdatum, eindDatum,pakketType,locatie,aantPers)
-                               VALUES (:userId,:startDatum,:eindDatum,:pakketType,:locatie,:aantPers);");
+        $this->db->query("INSERT INTO Reservation(userId,instructorId,startdatum, eindDatum,pakketType,locatie,aantPers)
+                               VALUES (:userId,:instructorId,:startDatum,:eindDatum,:pakketType,:locatie,:aantPers);");
         $this->db->bind(':userId', $userId);
 
         $startDate = new dateTime($postdata['startdate']);
@@ -82,6 +82,7 @@ class ApiModel
         $this->db->bind(':pakketType', $postdata['pakketType']);
         $this->db->bind(':locatie', $postdata['location']);
         $this->db->bind(':aantPers', $postdata['amountPeople']);
+        $this->db->bind(':instructorId', $postdata['instructorId']);
 
         if ($this->db->execute()) {
             return true;

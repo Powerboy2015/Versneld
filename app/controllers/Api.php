@@ -19,9 +19,6 @@ class Api extends Controller
         }
     }
 
-    // loops through the values provided by the register form and are  bound to the  placeholder values in the SQL statment.
-    // #FIXME this needs to be done properly later on. 
-    // For now this is a good bit of code that just needs to be altered according to everyting else.
     public function Register(): void
     {
         // Checks if passwords are filled in the same, 
@@ -38,15 +35,14 @@ class Api extends Controller
             $_SESSION['username'] = $_POST['username'];
             $user = $this->apiModel->getUser($_SESSION['username']);
 
-            $Email = new Mail($this->user->email, $user->userName);
-            $Email->body('Welcome ' . $_SESSION['username'], 'verify', $this->user);
+            $Email = new Mail($user->email, $user->userName);
+            $Email->body('Welcome ' . $_SESSION['username'], 'verify', $user);
             $Email->send();
 
             $this->USERLOG->userAction(3, $user->userId);
             $this->USERLOG->userAction(1, $user->userId);
             echo json_encode(true);
         } else {
-            // #TODO make this proper error code.
             echo json_encode('Username or Email already in use!');
         }
     }
@@ -57,11 +53,11 @@ class Api extends Controller
         $userData = $this->apiModel->getUser($_POST['username']);
 
         if ($userData != false && password_verify($_POST['password'], $userData->wachtwoord)) {
-            $_SESSION['username'] = $userData->username;
+            $_SESSION['username'] = $userData->userName;
             $this->USERLOG->userAction(1, $userData->userId);
             $res = true;
         } else {
-            $res = "wrong password or username";
+            $res = false;
         }
 
         echo json_encode($res);
@@ -124,8 +120,8 @@ class Api extends Controller
                                 <p> Locatie: {$res->locatie}</p>
                                 <p> {$type}</p>
                                 <p> aantal personen: {$res->aantPers}</p>
-                                <a class='changeRes' href='/admin/callRes/{$res->resId}'>change</a>
-                                <a class='DeleteRes' href='/admin/DeleteRes/{$res->resId}'>Delete</a>
+                                <a class='changeRes' href='/admin/editRes/{$res->resId}'>change</a>
+                                <a class='DeleteRes' href='/admin/DeleteRes/{$res->resId}'>Cancel reservation</a>
                               </div>";
         }
 

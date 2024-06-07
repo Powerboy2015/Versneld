@@ -28,12 +28,14 @@ class User extends controller
         }
     }
 
+    public function index()
+    {
+        header('Refresh:0,url=/user/profile');
+    }
+
     // profile page.
     public function profile()
     {
-
-        // FIXME this is absolute shit don't leave this like it is currenlty.
-        // Why?
         $data = [];
 
         // only feeds the non backend information through
@@ -65,8 +67,6 @@ class User extends controller
         $this->view('user/reservations', $data = ['userType' => $this->user->UserType]);
     }
 
-    // calls for the user change page, But I might want to do this inside the website already.
-    // #TODO write this dumbass code.
     public function change()
     {
         $data = [];
@@ -75,7 +75,15 @@ class User extends controller
 
     public function makeReservation()
     {
-        $this->view("user/reserve", $data = ['userType' => $this->user->UserType]);
+        $instructors = $this->usermodel->getInstructors();
+
+        $instructorTable = "";
+
+        foreach ($instructors as $key => $instructor) {
+            $instructorTable .= "<option value={$instructor->userId}>{$instructor->userName}</option>";
+        }
+
+        $this->view("user/reserve", $data = ['userType' => $this->user->UserType, 'instructTabel' => $instructorTable]);
     }
 
     public function adminPanel()
@@ -88,18 +96,25 @@ class User extends controller
         }
     }
 
-
-    // #TODO I don't think this exists anymore. could prolly be deleted 
-    public function AdminRes()
+    public function deleteReservation(int $resId)
     {
-        if ($this->usermodel->getUsrType($_SESSION['username']) != 3) {
-            header("refresh:0,url=/user/profile");
-        }
-
-
-        $data = [
-            'userType'  => $this->user->UserType
-        ];
-        $this->view('user/AdminReservation', $data);
+        $this->usermodel->cancelReservation($resId);
     }
+
+
+    // // #TODO I don't think this exists anymore. could prolly be deleted 
+    // // leave this in for a bit
+    // does indeed not exist anymore
+    // public function AdminRes()
+    // {
+    //     if ($this->usermodel->getUsrType($_SESSION['username']) != 3) {
+    //         header("refresh:0,url=/user/profile");
+    //     }
+
+
+    //     $data = [
+    //         'userType'  => $this->user->UserType
+    //     ];
+    //     $this->view('user/AdminReservation', $data);
+    // }
 }

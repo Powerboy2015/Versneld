@@ -15,7 +15,6 @@ class Admin extends Controller
             $this->user = $this->usermodel->getUserData($_SESSION['username']);
         }
 
-        // returns everyone that is not atleast instructor clearance
         if ($this->user->UserType < 2) {
             header('refresh:0, url=/user/profile');
         }
@@ -62,51 +61,95 @@ class Admin extends Controller
         // gives not set if not set.
         $resData->instructorId = $this->adminModel->getInstructorName($resData->instructorId);
 
+        // Gets an list of all instructors.
+        $instructorList = $this->adminModel->getInstructors();
 
-        // #TODO finish woroking on the edit reservation panel.
+        $innerForm = '';
+        foreach ($resData as $key => $value) {
+            switch ($key) {
+                case 'userId':
+                    $innerForm .= "<h2>Reservation Nummer: {$resId}</h2>";
+                    break;
+                    // makes all the date forms a datetime-local.
+                case 'startDatum':
+                case 'eindDatum':
+                    $innerForm .= "<label for='{$key}'>{$key}</label>
+                                   <input type='datetime-local' name='{$key}' value='{$value}'>";
+                    break;
 
-        $innerForm = '<label for=""';
+                    // creates select element with all location options.
+                case 'locatie':
+                    $innerForm .= '<label for="' . $key . '">' . $key . '</label>
+                                   <select name="' . $key . '" required>
+                                        <option value="Muiderberg">Muiderberg</option>
+                                        <option value="Zandvoort">Zandvoort</option>
+                                        <option value="Wijk aan Zee">Wijk aan Zee</option>
+                                        <option value="Ijmuiden">Ijmuiden</option>
+                                        <option value="Scheveningen">Scheveningen</option>
+                                        <option value="Hoek van holland">Hoek van holland</option>
+                                    </select>';
+                    break;
+
+                    // adds an select element with all the instructors. 
+                case 'instructorId':
+                    $innerForm .= "<label for='{$key}'>instructeur</label>
+                                   <select name='{$key}' required>";
+                    foreach ($instructorList as $id => $instructor) {
+                        $innerForm .= "<option value='{$instructor->userId}'>{$instructor->userName}</option>";
+                    }
+                    $innerForm .= "</select>";
+                    break;
+
+                    // if value is an int it will make the input accept numbers only.
+                case is_int($value):
+                    $innerForm .= "<label for='{$key}'>{$key}</label>
+                                   <input type='number' max-number='2' name='{$key}' value='{$value}'>";
+                    break;
+
+                case 'resStatus':
+                    $innerForm .= '<label for="' . $key . '">' . $key . '</label>
+                                   <select name="' . $key . '" required>
+                                        <option value="1">in behandeling</option>
+                                        <option value="2">wachten op reactie</option>
+                                        <option value="3">confirmed</option>
+                                        <option value="4">aangemeld</option>
+                                    </select>';
+                    break;
+
+                    // switch case for pakketType
+                case 'pakketType':
+                    $innerForm .= '<label for="' . $key . '">' . $key . '</label>
+                                   <select name="' . $key . '" required>
+                                        <option value="1">Privéles 2,5 uur</option>
+                                        <option value="2">Losse Duo Kiteles 3,5 uur</option>
+                                        <option value="3">Kitesurf Duo lespakket 3 lessen 10,5 uur</option>
+                                        <option value="4">Kitesurf Duo lespakket 5 lessen 17,5 uur</option>
+                                    </select>';
+                    break;
 
 
-        $this->view('admin/editRes', $data = ['resData' => $innerForm]);
+
+                    // everything else is set to be a text
+                default:
+                    $innerForm .= "<label for='{$key}'>{$key}</label>
+                                   <input type='text' name='{$key}' value='{$value}'>";
+                    break;
+            }
+        }
+
+
+        $this->view('admin/editRes', $data = ['resData' => $innerForm, 'resId' => $resId]);
     }
 
     public function deleteRes(int $resId)
     {
     }
 
-
-    // private function cleanObj(object $record)
-    // {
-    //     $cleanData = [];
-
-    //     foreach ($record as $key => $value) {
-    //         if ($key == "instructorId") {
-    //             $cleanData[$key] = $this->apiModel->getInstructorName($value);
-    //         } else if ($key == 'pakketType') {
-    //             switch ($value) {
-    //                 case 1:
-    //                     $resData->pakketType = "Privéles 2,5 uur";
-    //                     break;
-    //                 case 2:
-    //                     $type = "Losse Duo Kiteles 3,5 uur";
-    //                     break;
-    //                 case 3:
-    //                     $type = "Kitesurf Duo lespakket 3 lessen 10,5 uur";
-    //                     break;
-    //                 case 4:
-    //                     $type = "Kitesurf Duo lespakket 5 lessen 17,5 uur";
-    //                     break;
-    //                 default:
-    //                     $type = "Geen gekozen, error?";
-    //                     break;
-    //             }
-    //         } else {
-    //             $cleanData[$key] = $value;
-    //         }
-    //     }
-
-    //     return $cleanData;
-    // }
-
+    public function updateRes($resId)
+    {
+        if ($this->adminModel->updateRes($_POST, $resId)) {
+            echo 'redirect...';
+            header('refresh:0,url=/user/reservations');
+        };
+    }
 }

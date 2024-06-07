@@ -15,6 +15,7 @@ async function createReservation(data) {
 }
 
 // #TODO might have to change the enddate according to the pakket chosen.
+// keep this in for now but might have to rework this for v2
 form.addEventListener("submit", (e) => {
     e.preventDefault();
 

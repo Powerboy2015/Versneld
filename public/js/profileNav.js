@@ -50,7 +50,6 @@ changeUser.addEventListener('click', (e) =>{
                     body.innerHTML = '';
                     window.location.reload();
                 } else {
-                    // #TODO error code bs
                     msgEl.textContent = ret;
                 }
             })

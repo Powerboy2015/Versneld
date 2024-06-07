@@ -32,7 +32,6 @@ class Home extends controller
 
     public function notVerified()
     {
-        //#TODO make this page not available if the user is already verified.
         $this->view('Home/notVerified');
     }
 

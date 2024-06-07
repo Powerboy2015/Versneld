@@ -34,6 +34,10 @@
                     </select>
 
                     <!-- #TODO add an option to choose instructors. This has to be dynamically added. -->
+                    <label for="instructor">Instructeur</label>
+                    <select name='instructorId'>
+                        <?php echo $data['instructTabel']; ?>
+                    </select>
 
                     <label for="location">Location</label>
                     <select name="location" required>

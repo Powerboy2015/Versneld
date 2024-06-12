@@ -134,6 +134,10 @@ class Api extends Controller
     {
         // just redirecting it to our model.
         $result = $this->apiModel->createReservation($this->user->userId, $_POST);
+        $mail = new Mail($this->user->email, $_SESSION['username']);
+        $mail->body('Reservation added!', 'createRes', $this->user, $_POST);
+        $mail->addCC($this->apiModel->getInstructorEmail($_POST['instructorId']), 'instructor');
+        $mail->send();
 
         // gives back an true or false.
         echo json_encode($result);

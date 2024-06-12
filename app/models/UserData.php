@@ -54,4 +54,16 @@ class UserData
         $this->db->bind(':resid', $resId);
         return $this->db->execute();
     }
+
+    public function GetInstructorEmail(string $instructID)
+    {
+        $this->db->query("SELECT email FROM users WHERE UserType = 2 AND userId = :userId");
+        $this->db->bind(":userId", $instructID);
+        $res = $this->db->single()->email;
+
+        if (isset($res)) {
+            return $res;
+        }
+        return false;
+    }
 }

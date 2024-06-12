@@ -108,6 +108,13 @@ class ApiModel
         return $result;
     }
 
+    public function getInstructorEmail(string $instructId)
+    {
+        $this->db->query("SELECT email FROM users WHERE userId = :userId AND UserType = 2;");
+        $this->db->bind(':userId', $instructId);
+        return $this->db->single()->email;
+    }
+
     public function updateUser(int|string $userId, array $formData)
     {
         $this->db->query("UPDATE users

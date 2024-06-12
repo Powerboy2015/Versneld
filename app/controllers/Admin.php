@@ -149,10 +149,25 @@ class Admin extends Controller
 
     public function deleteRes(int $resId)
     {
+        $connUser = $this->adminModel->findConnectedUser($resId);
+        $instructEmail = $this->usermodel->GetInstructorEmail($connUser->instructorId);
+
+        // sends email that user has removed the reservation.
+        $mail = new Mail($connUser->email, $connUser->userName);
+        $mail->addCC($instructEmail, 'instructor');
+        $mail->body('reservation sucessfully removed', 'userCancel', $connUser);
+        $mail->send();
+
+        // deletes reservation from database.
+        $this->adminModel->deleteReservation($resId);
+
+        // returns user to homepage.
+        header("refresh:0, url=/user/profile");
     }
 
     public function updateRes($resId)
     {
+        // updates the reservation.
         if ($this->adminModel->updateRes($_POST, $resId)) {
             echo 'redirect...';
             header('refresh:0,url=/user/reservations');
@@ -161,11 +176,11 @@ class Admin extends Controller
 
     public function cancelRes(int $resId)
     {
-
-
+        // send user to the page.
         $this->view('admin/cancelReservation', $data = ['resId' => $resId]);
     }
 
+    // handles canceling the reservation.
     public function cancel(int $resId)
     {
         $foundUser = $this->adminModel->findConnectedUser($resId);

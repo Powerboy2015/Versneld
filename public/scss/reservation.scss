@@ -86,20 +86,20 @@ main {
 .reservationTable {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    gap: var(--gap);
-
-    overflow-y: scroll;
-    scrollbar-width: none;
 
     padding: 1rem;
 
     .inner {
         width: 100%;
         height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        gap: var(--gap);
+
+        overflow-y: scroll;
+        scrollbar-width: none;
     }
 
     .card {

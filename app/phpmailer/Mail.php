@@ -33,9 +33,9 @@ class Mail
     }
 
     //could be used for multiple people reserving 
-    public function addCC(string $email): void
+    public function addCC(string $email, string $name = null): void
     {
-        $this->mail->addCC($email);
+        $this->mail->addCC($email, $name);
     }
 
     public function addFile(string $path, string $fileName = null)
@@ -45,7 +45,7 @@ class Mail
 
     // sets subject and retrieves HTML(in php for variables) template for the body.
     // returns error if template does not exists.
-    public function body(string $subject, string $mailTemplate, object $user)
+    public function body(string $subject, string $mailTemplate, object $user, $data = [])
     {
         if (file_exists(APPROOT . '/views/mailTemplates/' . $mailTemplate . '.php')) {
             $this->mail->isHTML(true);                                  //Set email format to HTML

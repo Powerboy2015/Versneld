@@ -70,11 +70,19 @@ class adminModel
 
     public function findConnectedUser(int $resId)
     {
-        $this->db->query("SELECT Users.email, Users.userName Reservation.resId
+        $this->db->query("SELECT Users.email, Users.userName, Reservation.resId, Reservation.instructorId
                           FROM Users
                           INNER JOIN Reservation ON Users.userId = Reservation.userID
                           WHERE Reservation.resId = :resId;");
         $this->db->bind(':resId', $resId);
-        return $this->db->resultSet();
+        return $this->db->single();
+    }
+
+    public function deleteReservation(int $resID)
+    {
+        $this->db->query("DELETE FROM Reservation
+                          WHERE resId = :resId");
+        $this->db->bind(":resId", $resID);
+        return $this->db->execute();
     }
 }

@@ -16,7 +16,7 @@ class Home extends controller
     {
         $data = [];
         if (isset($_SESSION['user'])) {
-            $data['userName'] = $_SESSION['user'];
+            $data['userName'] = $_SESSION['username'];
         }
         $this->view('Home/Index', $data);
     }
@@ -32,6 +32,9 @@ class Home extends controller
 
     public function notVerified()
     {
+        if ($this->homeModel->isUserVerifiedByName($_SESSION['username'])) {
+            header("Refresh:0,url=/user/profile");
+        };
         $this->view('Home/notVerified');
     }
 

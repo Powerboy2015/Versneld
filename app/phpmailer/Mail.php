@@ -17,15 +17,15 @@ class Mail
         $this->mail = new PHPMailer(true);
 
         //Server settings
+        //UPDATED. This used to be done through the webserver from gmail. But due to school's cybersecurity this is not an available option anymore.
+        // use docker mailhog by the following: docker run -d -p 1025:1025 -p 8025:8025 mailhog/mailhog
+        //This will instal mailhog and run it on the proper port.
         $this->mail->SMTPDebug = 0;
-        //$this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-        $this->mail->isSMTP();                                            //Send using SMTP
-        $this->mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-        $this->mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $this->mail->Username   = $_ENV["EMAIL"];                     //SMTP username
-        $this->mail->Password   = $_ENV["EMAIL_PASS"];                               //SMTP password
-        $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
-        $this->mail->Port       = 587;                                  //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+        $this->mail->isSMTP();
+        $this->mail->Host = 'localhost';
+        $this->mail->SMTPAuth = false;
+        $this->mail->Port = 1025;
+
         $this->mail->setFrom('windschool12@gmail.com', 'Windkracht 12');
 
         //instantly set email destination aswell
@@ -45,7 +45,7 @@ class Mail
 
     // sets subject and retrieves HTML(in php for variables) template for the body.
     // returns error if template does not exists.
-    public function body(string $subject, string $mailTemplate, object $user): string|bool
+    public function body(string $subject, string $mailTemplate, object $user)
     {
         if (file_exists(APPROOT . '/views/mailTemplates/' . $mailTemplate . '.php')) {
             $this->mail->isHTML(true);                                  //Set email format to HTML

@@ -44,7 +44,7 @@ CREATE TABLE USERLOG(
 );
 
 INSERT INTO Users(userName,email,wachtwoord,Adres,isLoggedIn,isVerified) VALUES ('Zico','empty','$2y$10$In2WpgK4CTY1QysVBm7p4epHeIOSFpLDG4s5jdm/Q30GymY7VpLnS','jema',false,true);
-INSERT INTO Users(userName,email,wachtwoord,UserType,isVerified) VALUES ('Admin','admin@gmail.com','$2y$10$In2WpgK4CTY1QysVBm7p4epHeIOSFpLDG4s5jdm/Q30GymY7VpLnS',3,true),
+INSERT INTO Users(userName,email,wachtwoord,UserType,isVerified) VALUES ('Admin','admin@gmail.com','$2y$10$In2WpgK4CTY1QysVBm7p4epHeIOSFpLDG4s5jdm/Q30GymY7VpLnS',3,true);
 																		
 INSERT INTO Users(userName,email,wachtwoord) VALUES('piet','piet@gmail.com','$2y$10$h1.pz6zRQDmauuQIgGabiuIbg4vwuOuSTNTA/gx.4ZGlOTunPTZqe'),
 												   ('gerard','gerard@gmail.com','$2y$10$h1.pz6zRQDmauuQIgGabiuIbg4vwuOuSTNTA/gx.4ZGlOTunPTZqe'),
@@ -60,6 +60,13 @@ SELECT wachtwoord FROM users WHERE wachtwoord = '$2y$10$h1.pz6zRQDmauuQIgGabiuIb
 SELECT * FROM Users;
 SELECT * FROM USERLOG;
 SELECT * FROM reservation;
+
+
+SELECT Users.email 
+FROM Users
+INNER JOIN Reservation ON Users.userId = Reservation.userID
+WHERE Reservation.resId = 1;
+
 
 SELECT * 
 FROM Reservation 

@@ -15,9 +15,9 @@ class Admin extends Controller
             $this->user = $this->usermodel->getUserData($_SESSION['username']);
         }
 
-        if ($this->user->UserType < 2) {
-            header('refresh:0, url=/user/profile');
-        }
+        // if ($this->user->UserType < 2) {
+        //     header('refresh:0, url=/user/profile');
+        // }
     }
 
     public function editRes(int $resId)
@@ -107,13 +107,19 @@ class Admin extends Controller
                     break;
 
                 case 'resStatus':
-                    $innerForm .= '<label for="' . $key . '">' . $key . '</label>
-                                   <select name="' . $key . '" required>
-                                        <option value="1">in behandeling</option>
-                                        <option value="2">wachten op reactie</option>
-                                        <option value="3">confirmed</option>
-                                        <option value="4">aangemeld</option>
-                                    </select>';
+                    // makes it not possible for default users to change reservation status.
+                    if ($this->user->UserType == 1) {
+                        $innerForm .= '';
+                    } else {
+
+                        $innerForm .= '<label for="' . $key . '">' . $key . '</label>
+                        <select name="' . $key . '" required>
+                        <option value="1">in behandeling</option>
+                        <option value="2">wachten op reactie</option>
+                        <option value="3">confirmed</option>
+                        <option value="4">aangemeld</option>
+                        </select>';
+                    }
                     break;
 
                     // switch case for pakketType
@@ -151,5 +157,21 @@ class Admin extends Controller
             echo 'redirect...';
             header('refresh:0,url=/user/reservations');
         };
+    }
+
+    public function cancelRes(int $resId)
+    {
+
+
+        $this->view('admin/cancelReservation', $data = ['resId' => $resId]);
+    }
+
+    public function cancel(int $resId)
+    {
+        $foundUser = $this->adminModel->findConnectedUser($resId);
+        $this->adminModel->deleteReservation($resId);
+        $email = new Mail($foundUser->email, $foundUser->userName);
+        $email->body('Reservation has been removed', 'resCancel', $foundUser);
+        $email->send();
     }
 }

@@ -25,7 +25,7 @@ class Verify
         }
     }
 
-    public function isUserVerified(int $userid): false|object
+    public function isUserVerified(int $userid): bool
     {
         $this->db->query('SELECT isVerified FROM Users WHERE userId = :userId');
         $this->db->bind(':userId', $userid);
@@ -33,7 +33,21 @@ class Verify
         $result = $this->db->single();
 
         if (isset($result)) {
-            return $result;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function isUserVerifiedByName(string $userName): bool
+    {
+        $this->db->query('SELECT isVerified FROM Users WHERE userName = :userName');
+        $this->db->bind(':userName', $userName);
+
+        $result = $this->db->single();
+
+        if (isset($result)) {
+            return true;
         } else {
             return false;
         }

@@ -31,7 +31,7 @@ body {
         font-size: 14px;
     }
 
-    // @media (min-width: $size-desktop) {
-    //     font-size: 26px;
-    // }
+    @media (min-width: $size-desktop) {
+        font-size: 26px;
+    }
 }

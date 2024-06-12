@@ -67,4 +67,14 @@ class adminModel
 
         return $this->db->execute();
     }
+
+    public function findConnectedUser(int $resId)
+    {
+        $this->db->query("SELECT Users.email, Users.userName Reservation.resId
+                          FROM Users
+                          INNER JOIN Reservation ON Users.userId = Reservation.userID
+                          WHERE Reservation.resId = :resId;");
+        $this->db->bind(':resId', $resId);
+        return $this->db->resultSet();
+    }
 }

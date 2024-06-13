@@ -32,7 +32,7 @@ class Home extends controller
 
     public function notVerified()
     {
-        if ($this->homeModel->isUserVerifiedByName($_SESSION['username'])) {
+        if (!$this->homeModel->isUserVerifiedByName($_SESSION['username'])) {
             header("Refresh:0,url=/user/profile");
         };
         $this->view('Home/notVerified');

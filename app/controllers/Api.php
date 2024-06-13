@@ -113,16 +113,25 @@ class Api extends Controller
                     break;
             }
 
+            $instructor = $this->apiModel->getUserName($res->instructorId);
+
+            if ($this->user->UserType >= 2) {
+                $change = "<a class='DeleteRes' href='/admin/CancelRes/{$res->resId}'>Cancel reservation</a>";
+            } else {
+                $change = "<a class='DeleteRes' href='/admin/DeleteRes/{$res->resId}'>Cancel reservation</a>";
+            }
+
             // card body.   
             $reservations .= "<div class='card'>
                                 <h2>reservation Id: {$res->resId}</h2>
                                 <p> {$res->startDatum} - {$res->eindDatum}</p>
+                                <p> gegeven door: {$instructor}</p>
                                 <p> Locatie: {$res->locatie}</p>
                                 <p> {$type}</p>
                                 <p> aantal personen: {$res->aantPers}</p>
-                                <a class='changeRes' href='/admin/editRes/{$res->resId}'>change</a>
-                                <a class='DeleteRes' href='/admin/DeleteRes/{$res->resId}'>Cancel reservation</a>
-                              </div>";
+                                <a class='changeRes' href='/admin/editRes/{$res->resId}'>change</a>"
+                . $change .
+                "</div>";
         }
 
         $reservations .= "</div>";

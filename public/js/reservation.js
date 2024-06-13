@@ -1,9 +1,9 @@
 const tableContainer = document.querySelector(".reservationTable");
 
 async function getReservations() {
-    const response = await fetch('/api/getReservations',{
+    const response = await fetch("/api/getReservations", {
         method: "POST",
-    })
+    });
 
     if (response.ok) {
         return response.json();
@@ -13,9 +13,9 @@ async function getReservations() {
 }
 
 async function callAPi(link) {
-    const response = await fetch(link,{
-        method:"POST"
-    })
+    const response = await fetch(link, {
+        method: "POST",
+    });
 
     if (response.ok) {
         return response.json();
@@ -23,7 +23,6 @@ async function callAPi(link) {
 }
 
 // calls the reservations and adds them to html
-getReservations().then((resp) =>{
-    console.log(resp);
+getReservations().then((resp) => {
     tableContainer.innerHTML = resp;
-})
+});

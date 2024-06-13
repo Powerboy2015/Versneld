@@ -18,7 +18,7 @@ class Mail
 
         //Server settings
         //UPDATED. This used to be done through the webserver from gmail. But due to school's cybersecurity this is not an available option anymore.
-        // use docker mailhog by the following: docker run -d -p 1025:1025 -p 8025:8025 mailhog/mailhog
+        // use docker mailhog by the following: docker run --name mailhog -d -p 1025:1025 -p 8025:8025 mailhog/mailhog
         //This will instal mailhog and run it on the proper port.
         $this->mail->SMTPDebug = 0;
         $this->mail->isSMTP();

@@ -33,7 +33,7 @@
                         <option value="4">Kitesurf Duo lespakket 5 lessen 17,5 uur</option>
                     </select>
 
-                    <!-- #TODO add an option to choose instructors. This has to be dynamically added. -->
+                    <!-- an option to choose instructors that is dynamically added. -->
                     <label for="instructor">Instructeur</label>
                     <select name='instructorId'>
                         <?php echo $data['instructTabel']; ?>

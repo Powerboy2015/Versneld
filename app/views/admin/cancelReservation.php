@@ -1,7 +1,7 @@
 <?php require_once APPROOT . '/views/partial/admin_header.php'; ?>
 <main>
     <section class="formCard">
-        <form action="/admin/cancel/<?php echo $data['resId']; ?>">
+        <form method="POST" action="/admin/cancel/<?php echo $data['resId']; ?>">
             <select name="Reason" id="Reason">
                 <option value="1">Te hoge windkracht</option>
                 <option value="2">Anders</option>

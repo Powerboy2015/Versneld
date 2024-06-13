@@ -143,7 +143,6 @@ class Admin extends Controller
             }
         }
 
-
         $this->view('admin/editRes', $data = ['resData' => $innerForm, 'resId' => $resId]);
     }
 
@@ -183,10 +182,33 @@ class Admin extends Controller
     // handles canceling the reservation.
     public function cancel(int $resId)
     {
-        $foundUser = $this->adminModel->findConnectedUser($resId);
+        var_dump($_POST);
+        $connUser = $this->adminModel->findConnectedUser($resId);
+        var_dump($connUser);
+        $instructEmail = $this->usermodel->GetInstructorEmail($connUser->instructorId);
+
+        // sends email that user has removed the reservation.
+        $mail = new Mail($connUser->email, $connUser->userName);
+        $mail->addCC($instructEmail, 'instructor');
+
+        if ($_POST['Reason'] == 1) {
+            $Obj = [
+                'resId' => $resId,
+                'reason' => "vanwege de hoge windkracht."
+            ];
+        } else {
+            $Obj = [
+                'resId' => $resId,
+                'reason' => $_POST['Reasoning']
+            ];
+        }
+        $mail->body('reservation sucessfully removed', 'weatherCancel', $connUser, $Obj);
+        $mail->send();
+
+        // deletes reservation from database.
         $this->adminModel->deleteReservation($resId);
-        $email = new Mail($foundUser->email, $foundUser->userName);
-        $email->body('Reservation has been removed', 'resCancel', $foundUser);
-        $email->send();
+
+        // returns user to homepage.
+        header("refresh:0, url=/user/profile");
     }
 }

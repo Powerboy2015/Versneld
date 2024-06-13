@@ -40,7 +40,11 @@ class adminModel
 
     public function updateRes($postdata, $resId)
     {
-        $this->db->query('UPDATE reservation 
+        //only admins can alter res status.
+        //so if it comes from an admin update panel it will alter resStatus aswell
+        if (isset($postdata['resStatus'])) {
+
+            $this->db->query('UPDATE reservation 
                           SET startDatum = :startDatum,
                               eindDatum = :eindDatum,
                               pakketType = :pakketType,
@@ -50,6 +54,18 @@ class adminModel
                               resStatus = :resStatus
                           WHERE resId = :resId
                               ;');
+            $this->db->bind(':resStatus', $postdata['resStatus']);
+        } else {
+            $this->db->query('UPDATE reservation 
+                          SET startDatum = :startDatum,
+                              eindDatum = :eindDatum,
+                              pakketType = :pakketType,
+                              locatie = :locatie,
+                              aantPers = :aantPers,
+                              instructorId = :instructorId
+                          WHERE resId = :resId
+                              ;');
+        }
 
         $this->db->bind(':resId', $resId);
 
@@ -63,7 +79,6 @@ class adminModel
         $this->db->bind(':locatie', $postdata['locatie']);
         $this->db->bind(':aantPers', $postdata['aantPers']);
         $this->db->bind(':instructorId', $postdata['instructorId']);
-        $this->db->bind(':resStatus', $postdata['resStatus']);
 
         return $this->db->execute();
     }

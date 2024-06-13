@@ -10,7 +10,7 @@ class Verify
         $this->db = new Database();
     }
 
-    public function isValidCode(string $code): int|false
+    public function isValidCode(string $code)
     {
         $this->db->query("SELECT userId 
                           FROM users 
@@ -47,7 +47,7 @@ class Verify
         $result = $this->db->single();
 
         if (isset($result)) {
-            return true;
+            return $result->isVerified;
         } else {
             return false;
         }

@@ -25,7 +25,7 @@ class ApiModel
         }
     }
 
-    public function getUser(string $username): bool|object
+    public function getUser(string $username)
     {
         $this->db->query("SELECT userId,userName,email, wachtwoord 
                           FROM Users 
@@ -36,7 +36,7 @@ class ApiModel
         return $this->db->single();
     }
 
-    public function getReservations(string $userId = null): object|array
+    public function getReservations(string $userId = null)
     {
         if (!isset($userId)) {
             $this->db->query('SELECT * 
@@ -67,7 +67,7 @@ class ApiModel
 
 
     // creates a reservation using the postdata from the array and the userID from the user.
-    public function createReservation(int|string $userId, array $postdata): bool
+    public function createReservation($userId, array $postdata)
     {
         $this->db->query("INSERT INTO Reservation(userId,instructorId,startdatum, eindDatum,pakketType,locatie,aantPers)
                                VALUES (:userId,:instructorId,:startDatum,:eindDatum,:pakketType,:locatie,:aantPers);");
@@ -115,7 +115,7 @@ class ApiModel
         return $this->db->single()->email;
     }
 
-    public function updateUser(int|string $userId, array $formData)
+    public function updateUser($userId, array $formData)
     {
         $this->db->query("UPDATE users
                           SET userName = :username,
@@ -177,5 +177,18 @@ class ApiModel
 
         // TODO fix this shit.
         // $this->db->bind();
+    }
+
+    public function getUserName(int $userId)
+    {
+        $this->db->query("SELECT userName FROM users WHERE userId = :userId");
+        $this->db->bind(':userId', $userId);
+
+        $res = $this->db->single();
+
+        if (isset($res)) {
+            return $res->userName;
+        }
+        return false;
     }
 }

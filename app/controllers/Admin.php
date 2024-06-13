@@ -114,10 +114,10 @@ class Admin extends Controller
 
                         $innerForm .= '<label for="' . $key . '">' . $key . '</label>
                         <select name="' . $key . '" required>
-                        <option value="1">in behandeling</option>
-                        <option value="2">wachten op reactie</option>
-                        <option value="3">confirmed</option>
-                        <option value="4">aangemeld</option>
+                        <option value="0">in behandeling</option>
+                        <option value="1">wachten op reactie</option>
+                        <option value="2">confirmed</option>
+                        <option value="3">aangemeld</option>
                         </select>';
                     }
                     break;
@@ -182,33 +182,34 @@ class Admin extends Controller
     // handles canceling the reservation.
     public function cancel(int $resId)
     {
-        var_dump($_POST);
         $connUser = $this->adminModel->findConnectedUser($resId);
         var_dump($connUser);
-        $instructEmail = $this->usermodel->GetInstructorEmail($connUser->instructorId);
+        if ($connUser != false) {
+            $instructEmail = $this->usermodel->GetInstructorEmail($connUser->instructorId);
 
-        // sends email that user has removed the reservation.
-        $mail = new Mail($connUser->email, $connUser->userName);
-        $mail->addCC($instructEmail, 'instructor');
+            // sends email that user has removed the reservation.
+            $mail = new Mail($connUser->email, $connUser->userName);
+            $mail->addCC($instructEmail, 'instructor');
 
-        if ($_POST['Reason'] == 1) {
-            $Obj = [
-                'resId' => $resId,
-                'reason' => "vanwege de hoge windkracht."
-            ];
-        } else {
-            $Obj = [
-                'resId' => $resId,
-                'reason' => $_POST['Reasoning']
-            ];
+            if ($_POST['Reason'] == 1) {
+                $Obj = [
+                    'resId' => $resId,
+                    'reason' => "vanwege de hoge windkracht."
+                ];
+            } else {
+                $Obj = [
+                    'resId' => $resId,
+                    'reason' => $_POST['Reasoning']
+                ];
+            }
+            $mail->body('reservation sucessfully removed', 'weatherCancel', $connUser, $Obj);
+            $mail->send();
         }
-        $mail->body('reservation sucessfully removed', 'weatherCancel', $connUser, $Obj);
-        $mail->send();
 
         // deletes reservation from database.
         $this->adminModel->deleteReservation($resId);
 
         // returns user to homepage.
-        header("refresh:0, url=/user/profile");
+        header("refresh:0, url=/user/Reservations");
     }
 }

@@ -44,7 +44,7 @@ CREATE TABLE USERLOG(
 );
 
 INSERT INTO Users(userName,email,wachtwoord,Adres,isLoggedIn,isVerified) VALUES ('Zico','empty','$2y$10$In2WpgK4CTY1QysVBm7p4epHeIOSFpLDG4s5jdm/Q30GymY7VpLnS','jema',false,true);
-INSERT INTO Users(userName,email,wachtwoord,UserType,isVerified) VALUES ('Admin','admin@gmail.com','$2y$10$In2WpgK4CTY1QysVBm7p4epHeIOSFpLDG4s5jdm/Q30GymY7VpLnS',3,true),
+INSERT INTO Users(userName,email,wachtwoord,UserType,isVerified) VALUES ('Admin','admin@gmail.com','$2y$10$In2WpgK4CTY1QysVBm7p4epHeIOSFpLDG4s5jdm/Q30GymY7VpLnS',3,true);
 																		
 INSERT INTO Users(userName,email,wachtwoord) VALUES('piet','piet@gmail.com','$2y$10$h1.pz6zRQDmauuQIgGabiuIbg4vwuOuSTNTA/gx.4ZGlOTunPTZqe'),
 												   ('gerard','gerard@gmail.com','$2y$10$h1.pz6zRQDmauuQIgGabiuIbg4vwuOuSTNTA/gx.4ZGlOTunPTZqe'),
@@ -56,23 +56,3 @@ INSERT INTO Users(userName,email,wachtwoord,UserType,isVerified) VALUES ('Instru
 																		('Instructor02','instructor02@gmail.com','$2y$10$In2WpgK4CTY1QysVBm7p4epHeIOSFpLDG4s5jdm/Q30GymY7VpLnS',2,true),
                                                                         ('Instructor03','instructor03@gmail.com','$2y$10$In2WpgK4CTY1QysVBm7p4epHeIOSFpLDG4s5jdm/Q30GymY7VpLnS',2,true),
                                                                         ('Instructor04','instructor04@gmail.com','$2y$10$In2WpgK4CTY1QysVBm7p4epHeIOSFpLDG4s5jdm/Q30GymY7VpLnS',2,true);
-
-SELECT wachtwoord FROM users WHERE wachtwoord = '$2y$10$h1.pz6zRQDmauuQIgGabiuIbg4vwuOuSTNTA/gx.4ZGlOTunPTZqe';
-
-SELECT * FROM Users;
-SELECT * FROM USERLOG;
-SELECT * FROM reservation;
-
-SELECT * 
-FROM Reservation 
-WHERE userId = ;
-
-update users
-set Tel = "21890808"
-where userId = 3;
-
-update users
-set isVerified = true
-where userId= 7;
-
-DELETE FROM reservations WHERE userId = 20;

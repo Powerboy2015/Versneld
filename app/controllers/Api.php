@@ -115,11 +115,27 @@ class Api extends Controller
 
             $instructor = $this->apiModel->getUserName($res->instructorId);
 
-            if ($this->user->UserType >= 2) {
-                $change = "<a class='DeleteRes' href='/admin/CancelRes/{$res->resId}'>Cancel reservation</a>";
-            } else {
-                $change = "<a class='DeleteRes' href='/admin/DeleteRes/{$res->resId}'>Cancel reservation</a>";
+            switch ($res->resStatus) {
+                case 0:
+                    $resStatus = 'in behandeling';
+                    break;
+                case 1:
+                    $resStatus = 'wachten op reactie';
+                    break;
+                case 2:
+                    $resStatus = 'confirmed';
+                    break;
+                case 3:
+                    $resStatus = 'aangemeld';
+                    break;
             }
+
+            if ($this->user->UserType >= 2) {
+                $change = "<a class='DeleteRes' href='/admin/CancelRes/{$res->resId}'>Cancel reservation</a><br>";
+            } else {
+                $change = "<a class='DeleteRes' href='/admin/DeleteRes/{$res->resId}'>Cancel reservation</a><br>";
+            }
+
 
             // card body.   
             $reservations .= "<div class='card'>
@@ -129,9 +145,10 @@ class Api extends Controller
                                 <p> Locatie: {$res->locatie}</p>
                                 <p> {$type}</p>
                                 <p> aantal personen: {$res->aantPers}</p>
-                                <a class='changeRes' href='/admin/editRes/{$res->resId}'>change</a>"
+                                <p>Reservation Status: {$resStatus}</p>"
                 . $change .
-                "</div>";
+                "<a class='changeRes' href='/admin/editRes/{$res->resId}'>change</a>
+                </div>";
         }
 
         $reservations .= "</div>";
@@ -144,6 +161,7 @@ class Api extends Controller
         // just redirecting it to our model.
         $result = $this->apiModel->createReservation($this->user->userId, $_POST);
         $mail = new Mail($this->user->email, $_SESSION['username']);
+        $_POST['date'] = (new DateTime($_POST['startdate']))->format('d M Y');
         $mail->body('Reservation added!', 'createRes', $this->user, $_POST);
         $mail->addCC($this->apiModel->getInstructorEmail($_POST['instructorId']), 'instructor');
         $mail->send();
@@ -195,11 +213,22 @@ class Api extends Controller
                 }
             }
             $tablerows .= "<td><a class='change-User' href='/api/fetchUpdatePanel/" . $user->userName . "'>change User</a></td>
-                           <td class='delete-User'> X </td>";
+                           <td><a class='delete-User' href='/api/deleteUser/" . $user->userName . "'> X </a></td>";
             $tablerows .= '</tr>';
         }
 
         echo json_encode($tablerows);
+    }
+
+    public function deleteUser($username = null)
+    {
+        if ($this->user->userName == $username || $this->user->UserType == 3) {
+            $this->apiModel->deleteUser($username);
+            echo json_encode(true);
+            exit;
+        }
+        echo json_encode(false);
+        exit;
     }
 
     // calls for updateUser template, and shoots it back to the js code

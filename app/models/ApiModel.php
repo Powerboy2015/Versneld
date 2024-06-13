@@ -191,4 +191,16 @@ class ApiModel
         }
         return false;
     }
+
+    public function deleteUser($username)
+    {
+        $this->db->query("DELETE FROM users WHERE userName = :username");
+        $this->db->bind(":username", $username);
+        try {
+            $this->db->execute();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 }

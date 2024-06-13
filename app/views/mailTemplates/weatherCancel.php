@@ -3,5 +3,5 @@
     De reden hiervoor is <?php echo $data['reason']; ?></p>
 <p>
     met vriendelijke groet,
-    windchool windkracht12
+    windschool windkracht12
 </p>

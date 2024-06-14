@@ -62,6 +62,7 @@ function addResponseEvent() {
         let data = new FormData(form);
         console.log(form.action);
         updateUserType(data, form.action);
+        bod.innerHTML = "";
     });
 }
 

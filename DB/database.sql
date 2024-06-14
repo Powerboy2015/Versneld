@@ -56,3 +56,5 @@ INSERT INTO Users(userName,email,wachtwoord,UserType,isVerified) VALUES ('Instru
 																		('Instructor02','instructor02@gmail.com','$2y$10$In2WpgK4CTY1QysVBm7p4epHeIOSFpLDG4s5jdm/Q30GymY7VpLnS',2,true),
                                                                         ('Instructor03','instructor03@gmail.com','$2y$10$In2WpgK4CTY1QysVBm7p4epHeIOSFpLDG4s5jdm/Q30GymY7VpLnS',2,true),
                                                                         ('Instructor04','instructor04@gmail.com','$2y$10$In2WpgK4CTY1QysVBm7p4epHeIOSFpLDG4s5jdm/Q30GymY7VpLnS',2,true);
+                                                                        
+SELECT * FROM reservation;

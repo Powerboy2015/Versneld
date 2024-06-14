@@ -203,4 +203,17 @@ class ApiModel
             return false;
         }
     }
+
+    public function getIntructRes(int $instructId)
+    {
+
+        $this->db->query('SELECT * 
+                          FROM Reservation
+                          WHERE InstructorId = :instructId 
+                          ');
+        $this->db->bind(":instructId", $instructId);
+
+        $result = $this->db->resultSet();
+        return $result;
+    }
 }

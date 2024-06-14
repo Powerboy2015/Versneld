@@ -89,6 +89,8 @@ class Api extends Controller
     {
         if ($this->user->UserType == 3) {
             $result = $this->apiModel->getReservations();
+        } else if ($this->user->UserType == 2) {
+            $result = $this->apiModel->getIntructRes($this->user->userId);
         } else {
             $result = $this->apiModel->getReservations($this->user->userId);
         }
